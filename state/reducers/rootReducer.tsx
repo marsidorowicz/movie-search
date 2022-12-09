@@ -2,7 +2,8 @@
 
 const initState = {
 	theme: 'light',
-};
+	title: '',
+}
 
 export const rootReducer = (state = initState, action: any) => {
 	switch (action.type) {
@@ -10,22 +11,27 @@ export const rootReducer = (state = initState, action: any) => {
 			return {
 				...state,
 				theme: action.payload,
-			};
+			}
+		case 'SET_TITLE':
+			return {
+				...state,
+				title: action.payload,
+			}
 		default:
-			return state;
+			return state
 	}
 
-	return null;
-};
+	return null
+}
 
 export function languageReducer(state = { language: 'EN' }, action: { type: any; language: any }) {
 	switch (action.type) {
 		case 'SET_LANGUAGE':
-			let x = { ...state, language: action.language };
-			return x;
+			let x = { ...state, language: action.language }
+			return x
 		default:
-			return state;
+			return state
 	}
 }
 
-export default { rootReducer, languageReducer };
+export default { rootReducer, languageReducer }
