@@ -1,0 +1,21 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+@layer components {
+    .hLink {
+        @apply cursor-pointer text-sm text-white duration-300 transition hover:text-[#9b8832]
+    }
+}
+
+@layer base {
+    body {
+        @apply bg-black
+    }
+
+    header {
+        @apply fixed top-0 z-40 flex items-center transition-all lg:px-10
+    }
+}
