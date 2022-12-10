@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import ErrorPage from './ErrorPage'
 import Home from '.'
-import Test from '../components/App'
 
 export default function MyApp({ Component, pageProps }: AppProps) {
 	const [showChild, setShowChild] = useState(false)
@@ -29,11 +28,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 				element: <Home />,
 				errorElement: <ErrorPage />,
 			},
-			{
-				path: '/test',
-				element: <Test />,
-				errorElement: <ErrorPage />,
-			},
+			// {
+			// 	path: '/test',
+			// 	element: <Test />,
+			// 	errorElement: <ErrorPage />,
+			// },
 		])
 		return (
 			<Provider store={store}>
