@@ -1,13 +1,15 @@
-/** @format */
+/**
+ * @format
+ * @type {import('next').NextConfig}
+ */
 
 module.exports = {
 	images: {
 		remotePatterns: [
 			{
 				protocol: 'https',
-				hostname: 'image.imdb.org',
-				port: '',
-				pathname: '/**',
+				hostname: 'image.tmdb.org',
+				pathname: '/t/p/original/**',
 			},
 		],
 	},

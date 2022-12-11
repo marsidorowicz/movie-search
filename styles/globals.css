@@ -8,14 +8,39 @@
     .hLink {
         @apply cursor-pointer text-sm text-white duration-300 transition hover:text-[#9b8832]
     }
+
+    
+
+        /* width */
+        ::-webkit-scrollbar {
+            width: 25px;
+        }
+    
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #19191a;
+        }
+    
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: rgb(37, 54, 54)
+        }
+    
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgb(240, 2, 2);
+        }
 }
 
 @layer base {
     body {
-        @apply bg-black
+        @apply bg-black 
     }
+
+
 
     header {
         @apply fixed top-0 z-40 flex items-center transition-all lg:px-10
     }
+    
 }
