@@ -8,16 +8,16 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 function MovieThumbnail(props: { movieInfo: any; rating: number }) {
 	const [movieDetails, setMovieDetails] = useState<any | null>(null)
 	const [url, setUrl] = useState<any | null>(null)
-	console.log(props)
 
 	useEffect(() => {
 		setMovieDetails(props?.movieInfo)
-		console.log('movieDetails')
-		console.log(movieDetails)
+
 		const movieUrl = `${base}${props?.movieInfo?.backdrop_path || props?.movieInfo?.poster_path}`
 		setUrl(movieUrl)
 		return () => {}
 	}, [props?.movieInfo])
+
+	if (!movieDetails) return null
 
 	return (
 		<div className='relative p-2'>
@@ -25,7 +25,7 @@ function MovieThumbnail(props: { movieInfo: any; rating: number }) {
 				{`No. ${props?.rating + 1} - ` + movieDetails?.title || 'No Title'}
 			</h1>
 			<div className='relative left-0 top-0 flex pb-4'>
-				<Image src={url || ''} alt={movieDetails?.title || ''} style={{ objectFit: 'cover' }} width={'150'} height={'150'} />
+				<Image src={url ? url : ''} alt={movieDetails?.title || ''} style={{ objectFit: 'cover' }} width={'150'} height={'150'} />
 			</div>
 
 			<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] font-bold'>{`Release Date: (${movieDetails?.release_date || 'unknown'})`}</p>

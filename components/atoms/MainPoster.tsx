@@ -8,7 +8,7 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 function MainPoster(props: { data: any }) {
 	console.log('props?.data')
 	console.log(props?.data)
-	const topRatedMovie = props?.data?.topRated?.[0]
+	const topRatedMovie = props?.data[0]
 	console.log('topRatedMovie')
 	console.log(topRatedMovie)
 	if (!topRatedMovie) return null

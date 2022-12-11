@@ -8,23 +8,40 @@ import req from '../utilities/apiReqs'
 import MovieThumbnail from '../components/atoms/MovieThumbnail'
 
 export async function getServerSideProps(context: any) {
-	const topRated = await fetch(req.topRated).then((res) => res.json())
+	const [topRated, genre] = await Promise.all([fetch(req.topRated).then((res) => res.json()), fetch(req.genreList).then((res) => res.json()), ,])
 
 	return {
 		props: {
 			topRated: topRated.results,
+			genre: genre,
 		}, // will be passed to the page component as props
 	}
 }
 
-export default function HomePage(topRated: any) {
+export default function HomePage(props: { topRated: any; genre: any }) {
 	const [showChild, setShowChild] = useState(false)
 	const [topRatedArray, setTopRatedArray] = useState<[]>()
+
+	const getYear = async (props: { year: string; page?: number }) => {
+		if (!props?.year) return
+		const res = await fetch(
+			req.year + `&sort_by=vote_average.desc&sort_by=popularity.desc&primary_release_year=${props?.year}&page=${props?.page ? props?.page.toString() : '1'}`
+		).then((res) => res.json())
+		console.log('res')
+		console.log(res)
+	}
+
 	useEffect(() => {
-		console.log('topRated here')
-		console.log(topRated)
-		console.log(topRated?.topRated)
-		setTopRatedArray(topRated?.topRated)
+		console.log('topRated')
+		console.log(props?.topRated)
+		getYear({
+			year: '2020',
+			page: 1,
+		})
+		console.log('genre')
+		console.log(props?.genre)
+
+		setTopRatedArray(props?.topRated)
 		setShowChild(true)
 	}, [])
 
@@ -32,9 +49,9 @@ export default function HomePage(topRated: any) {
 		return null
 	}
 	return (
-		<Layout>
+		<Layout genre={props?.genre}>
 			<Home>
-				<MainPoster data={topRated} />
+				<MainPoster data={props?.topRated} />
 				<section id='top-rated' className='flex float-left w-full overflow-x-scroll scroll-smooth'>
 					{topRatedArray?.length
 						? topRatedArray.map((movieInfoData: any, index: number) => {
@@ -48,7 +65,7 @@ export default function HomePage(topRated: any) {
 						: 'No Data'}
 				</section>
 				<div>Last Search</div>
-				<section id='searched' className='flex float-left w-full overflow-x-scroll scroll-smooth'>
+				{/* <section id='searched' className='flex float-left w-full overflow-x-scroll scroll-smooth'>
 					{topRatedArray?.length
 						? topRatedArray.map((movieInfoData: any, index: number) => {
 								if (index === 0 || index > 7) return
@@ -59,7 +76,7 @@ export default function HomePage(topRated: any) {
 								)
 						  })
 						: 'No Data'}
-				</section>
+				</section> */}
 			</Home>
 		</Layout>
 	)

@@ -4,7 +4,9 @@ import LiveTv from '@mui/icons-material/LiveTv'
 import { useEffect, useState } from 'react'
 import ServerSideModal from '../organisms/ServerSideModal'
 
-function Header() {
+function Header(props: { genre: any[] }) {
+	console.log('props?.genre********************************')
+	console.log(props?.genre)
 	const [scrolled, setScrolled] = useState(false)
 	if (typeof window !== 'undefined') {
 		// browser code
@@ -34,7 +36,7 @@ function Header() {
 					</ul>
 				</div>
 				<div className='flex float-right ml-1'>
-					<ServerSideModal />
+					<ServerSideModal genre={props?.genre} />
 				</div>
 			</header>
 		)

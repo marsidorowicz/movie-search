@@ -5,14 +5,14 @@ import Head from 'next/head'
 import React, { Children } from 'react'
 import Header from '../atoms/Header'
 
-function Layout(props: { children: any }) {
+function Layout(props: { children: any; genre: any[] }) {
 	return (
 		<Box className='bg-gradient-to-t from-gray-900 to-black relative h-screen z-10'>
 			<Head>
 				<title>Movies!</title>
 				<link rel='icon' href='./public/assets/favicon.png'></link>
 			</Head>
-			<Header />
+			<Header genre={props?.genre} />
 			<br></br>
 			<main className='m-2 pl-2 pt-2 pb-24 text-white'>{props.children}</main>
 			<div className='text-white p-3'></div>
