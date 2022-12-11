@@ -1,13 +1,11 @@
 /** @format */
 
-import { color, extendTheme } from '@chakra-ui/react';
-import { mode } from '@chakra-ui/theme-tools';
-import { light, dark } from '@material-ui/core/styles/createPalette';
+import { color, extendTheme } from '@chakra-ui/react'
 
 const config: any = {
 	initialColorMode: 'light',
 	useSystemColorMode: false,
-};
+}
 
 export const theme = extendTheme({
 	config,
@@ -20,5 +18,5 @@ export const theme = extendTheme({
 			},
 		},
 	},
-});
-export default theme;
+})
+export default theme
