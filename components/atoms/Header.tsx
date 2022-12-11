@@ -25,8 +25,8 @@ function Header() {
 		}, [])
 
 		return (
-			<header className={`${scrolled && 'bg-black  w-full'}`}>
-				<div className='flex items-center space-x-2 md:space-x-10 float-left p-2 '>
+			<header className={`${scrolled && 'bg-black  w-full'} p-1`}>
+				<div className='flex items-center space-x-2 md:space-x-10 float-left m-1 '>
 					<LiveTv className=' text-[7px] sm:text-[12px] md:text-[15px] lg:text-[25px]' sx={{ color: 'red' }} />
 					<ul className='hidden space-x-5 md:flex'>
 						<li className='hLink'>Home</li>
@@ -35,9 +35,8 @@ function Header() {
 						<li className='hLink'>About Us</li>
 					</ul>
 				</div>
-				<div className='flex float-right  '>
+				<div className='flex float-right ml-1'>
 					<ServerSideModal />
-					<NotificationsActiveIcon className='m-2  text-[7px] sm:text-[12px] md:text-[15px] lg:text-[25px]' sx={{ color: 'red' }} />
 				</div>
 			</header>
 		)

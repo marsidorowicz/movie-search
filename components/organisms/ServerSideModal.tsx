@@ -12,10 +12,14 @@ export default function ServerSideModal() {
 	const rootRef = useRef<HTMLDivElement>(null)
 	const { isOpen, onOpen, onClose } = useDisclosure()
 
+	function search() {}
+
 	return (
 		<Box>
 			<Button onClick={onOpen}>
-				<SearchIcon className='m-2 text-[7px] sm:text-[12px] md:text-[15px] lg:text-[25px]' sx={{ color: 'red' }} />
+				<div className='text-[#ff0000] pb-1'>
+					<SearchIcon className='text-[7px] sm:text-[15px] md:text-[20px] lg:text-[25px]' />
+				</div>
 			</Button>
 			<Box ref={rootRef}>
 				<Modal
@@ -43,15 +47,18 @@ export default function ServerSideModal() {
 							p: 4,
 						}}>
 						<Typography id='server-modal-title' variant='h6' component='h2' className='text-white'>
-							Search Movie
+							Search a Movie
 						</Typography>
-						<Typography id='server-modal-description' sx={{ pt: 2 }}>
+						<Typography sx={{ pt: 2 }}>
 							<input placeholder='Title'></input>
 						</Typography>
-						<Typography id='server-modal-description' sx={{ pt: 2 }}>
+						<Typography sx={{ pt: 2 }}>
 							<input placeholder='Title'></input>
 						</Typography>
-						<Button onClick={onClose} className=''>
+						<Button onClick={search} className='text-white p-3 float-left'>
+							SEARCH
+						</Button>
+						<Button onClick={onClose} className='text-white p-3 float-right'>
 							CLOSE
 						</Button>
 					</Box>
