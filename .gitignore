@@ -1,3 +1,16 @@
 node_modules
+# local env files
+.env
 .env.local
-.next
+.env.development.local
+.env.test.local
+.env.production.local
+# next.js
+# Next build dir
+.next/
+
+
+# production
+/build
+
+.gitignore

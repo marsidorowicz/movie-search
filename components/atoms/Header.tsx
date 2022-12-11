@@ -4,6 +4,7 @@ import LiveTv from '@mui/icons-material/LiveTv'
 import SearchIcon from '@mui/icons-material/Search'
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
 import { useEffect, useState } from 'react'
+import ServerSideModal from '../organisms/ServerSideModal'
 
 function Header() {
 	const [scrolled, setScrolled] = useState(false)
@@ -35,7 +36,7 @@ function Header() {
 					</ul>
 				</div>
 				<div className='flex float-right  '>
-					<SearchIcon className='m-2 text-[7px] sm:text-[12px] md:text-[15px] lg:text-[25px]' sx={{ color: 'red' }} />
+					<ServerSideModal />
 					<NotificationsActiveIcon className='m-2  text-[7px] sm:text-[12px] md:text-[15px] lg:text-[25px]' sx={{ color: 'red' }} />
 				</div>
 			</header>
