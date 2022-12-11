@@ -1,8 +1,6 @@
 /** @format */
 
 import LiveTv from '@mui/icons-material/LiveTv'
-import SearchIcon from '@mui/icons-material/Search'
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
 import { useEffect, useState } from 'react'
 import ServerSideModal from '../organisms/ServerSideModal'
 
