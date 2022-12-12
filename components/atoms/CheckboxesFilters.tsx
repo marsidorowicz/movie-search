@@ -39,8 +39,8 @@ export default function CheckboxesTags(props: { genre: any }) {
 			multiple
 			ChipProps={{
 				sx: {
-					p: 0,
-					m: 0,
+					p: 0.1,
+					m: 0.1,
 				},
 				size: 'small',
 				className: 'text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]',
@@ -82,11 +82,17 @@ export default function CheckboxesTags(props: { genre: any }) {
 				console.log('checkedConfirmed')
 				console.log(checkedConfirmed)
 
-				if (!checkedConfirmed) return null
+				if (checkedConfirmed === null) return
 
 				return (
 					<li {...props}>
-						<Checkbox className='' icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={checkedConfirmed?.length ? true : false} />
+						<Checkbox
+							className=''
+							icon={icon}
+							checkedIcon={checkedIcon}
+							style={{ marginRight: 8 }}
+							checked={Array.isArray(checkedConfirmed) && checkedConfirmed?.length ? true : false}
+						/>
 						{option.name}
 					</li>
 				)
