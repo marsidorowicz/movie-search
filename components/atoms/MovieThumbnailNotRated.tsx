@@ -4,10 +4,12 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { base } from '../../utilities/constants'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
+import { useRouter } from 'next/router'
 
 function MovieThumbnail(props: { movieInfo: any }) {
 	const [movieDetails, setMovieDetails] = useState<any | null>(null)
 	const [url, setUrl] = useState<any | null>(null)
+	const router = useRouter()
 
 	useEffect(() => {
 		setMovieDetails(props?.movieInfo)
@@ -17,7 +19,7 @@ function MovieThumbnail(props: { movieInfo: any }) {
 		return () => {}
 	}, [props?.movieInfo])
 
-	if (!movieDetails) return null
+	if (!movieDetails || !url) return null
 
 	return (
 		<div className='relative p-2'>
@@ -25,14 +27,20 @@ function MovieThumbnail(props: { movieInfo: any }) {
 				{movieDetails?.title || 'No Title'}
 			</h1>
 			<div className='relative left-0 top-0 flex pb-4'>
-				{url !== null ? <Image src={url ? url : ''} alt={movieDetails?.title || ''} style={{ objectFit: 'cover' }} width={'150'} height={'150'} /> : 'No image'}
+				{url !== null ? (
+					<Image src={url ? url : ''} alt={movieDetails?.title || ''} style={{ objectFit: 'cover' }} width={'150'} height={'150'} />
+				) : (
+					<div className='w-[150px] h-[85px]'>No image</div>
+				)}
 			</div>
 
 			<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] font-bold'>{`Release Date: (${movieDetails?.release_date || 'unknown'})`}</p>
 			<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]'>{'Vote Average: ' + movieDetails?.vote_average}</p>
 			<div>
 				<div className='p-2 flex justify-center'>
-					<button className='text-1xl sm:text-2xl md:text-4xl lg:text-6xl font-bold flex shadow-white shadow align-middle' onClick={() => ''}>
+					<button
+						className='text-1xl sm:text-2xl md:text-4xl lg:text-6xl font-bold flex shadow-white shadow align-middle'
+						onClick={() => router.push(`/play/?id=${movieDetails?.id || 'noId'}`)}>
 						<PlayCircleOutlineIcon className='text-1xl sm:text-2xl md:text-4xl lg:text-6xl font-bold flex' />
 						PLAY
 					</button>

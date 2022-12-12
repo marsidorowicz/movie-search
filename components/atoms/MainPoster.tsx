@@ -14,7 +14,7 @@ function MainPoster(props: { data: any }) {
 	return (
 		<div className='pb-20'>
 			<div className='absolute left-0 top-0 h-[80vh] w-screen -z-10 flex lg:justify-end'>
-				<Image src={url} alt={topRatedMovie?.title} style={{ objectFit: 'cover' }} fill />
+				<Image src={url} alt={topRatedMovie?.title} style={{ objectFit: 'cover' }} fill priority />
 			</div>
 			<h1 className='text-1xl sm:text-2xl md:text-4xl lg:text-6xl font-bold p-2'>{'No. 1 ' + topRatedMovie?.title}</h1>
 
