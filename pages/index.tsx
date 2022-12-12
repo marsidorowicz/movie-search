@@ -43,16 +43,12 @@ export function Root(props: { topRated: any; genre: any }) {
 	if (typeof window !== 'undefined') {
 		let url = new URL(window.location.href)
 
-		console.log(url)
-		console.log(url.search)
 		let arrOfObjects = {}
 		const searchParams: any = new URLSearchParams(url.search)
 		for (const [key, value] of searchParams.entries()) {
 			console.log(`${key}, ${value}`)
 			arrOfObjects[key] = value
 		}
-		console.log('arrOfObjects')
-		console.log(arrOfObjects)
 	}
 
 	useEffect(() => {
@@ -91,7 +87,7 @@ export function Root(props: { topRated: any; genre: any }) {
 							: 'No Data'}
 					</section>
 
-					{year && dataFromFilters && dataFromFilters?.results?.length ? (
+					{year && dataFromFilters ? (
 						<div>
 							<div>Last Search By Year</div>
 							<section id='searched-year' className='flex float-left w-full overflow-x-scroll scroll-smooth mb-10'>

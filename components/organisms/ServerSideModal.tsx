@@ -97,28 +97,24 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 					<Box
 						sx={{
 							position: 'relative',
-							width: 400,
 							color: 'black',
 							bgcolor: 'white',
 							border: '2px solid red',
 							boxShadow: (theme) => theme.shadows[5],
-							p: 4,
+							p: 1,
 						}}>
 						<Typography id='server-modal-title' variant='h6' component='h2' className='text-black'>
 							Search a Movie
 						</Typography>
 						<CheckboxesFilters genre={props?.genre} />
-						{/* {props?.genre?.genres?.length
-							? props?.genre?.genres?.map((genre: any) => {
-									console.log(genre)
-							  })
-							: ''} */}
+
 						<Typography sx={{ pt: 2 }}>
 							<input
 								placeholder='Title'
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 									e.preventDefault()
 									const newValue = e.target.value
+									if (!newValue) return
 									setTitle(newValue)
 									dispatch(setTitleAction(newValue))
 								}}></input>
@@ -131,7 +127,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 									e.preventDefault()
 									const newValue = e.target.value
-									console.log(newValue.length)
+									if (!newValue) return
 									if (newValue.length > 4) return
 									setYear(newValue)
 								}}></input>
