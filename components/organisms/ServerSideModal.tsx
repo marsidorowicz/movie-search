@@ -51,7 +51,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	}
 
 	function search() {
-		if (!year || year?.length < 4 || parseInt(year) < 1900) {
+		if (!year || year < 4 || parseInt(year) < 1900) {
 			setMsg('wrong year')
 			setSeverity('error')
 			setOpen(true)
@@ -131,8 +131,8 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 									e.preventDefault()
 									const newValue = e.target.value
-									console.log(newValue?.length)
-									if (newValue?.length > 4) return
+									console.log(newValue.length)
+									if (newValue.length > 4) return
 									setYear(newValue)
 								}}></input>
 						</Typography>
