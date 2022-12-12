@@ -1,10 +1,8 @@
 /** @format */
 
 import LiveTv from '@mui/icons-material/LiveTv'
-import { MouseEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import ServerSideModal from '../organisms/ServerSideModal'
-import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 import { useRouter } from 'next/router'
 
 function Header(props: { genre: any[]; sendData: (data: any) => void }) {
@@ -29,9 +27,9 @@ function Header(props: { genre: any[]; sendData: (data: any) => void }) {
 
 		return (
 			<header className={`${scrolled && 'bg-black  w-full'} p-1`}>
-				<div className='flex items-center space-x-2 md:space-x-10 float-left m-1 '>
+				<div className='flex items-center space-x-3 md:space-x-5 float-left m-1 '>
 					<LiveTv className=' text-[7px] sm:text-[12px] md:text-[15px] lg:text-[25px]' sx={{ color: 'red' }} />
-					<ul className='hidden space-x-5 md:flex'>
+					<ul className='hidden space-x-4 sm:flex text-[7px] sm:text-[12px] md:text-[15px] lg:text-[35px] xl:text-[55px]'>
 						<li className='hLink' onClick={() => router.push('/')}>
 							Home
 						</li>

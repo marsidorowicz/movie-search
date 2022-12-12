@@ -113,11 +113,10 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 						sx={{
 							position: 'relative',
 							color: 'black',
-							bgcolor: '#df0a0a',
+							bgcolor: 'black',
 							border: '1px solid red',
 							boxShadow: (theme) => theme.shadows[5],
 							p: 1,
-							// width: '90%',
 						}}>
 						<Typography id='server-modal-title' variant='h6' component='h2' className='text-white text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>
 							Search a Movie
