@@ -4,6 +4,7 @@ const initState = {
 	theme: 'light',
 	title: '',
 	filtersSelected: {},
+	data: {},
 }
 
 export const rootReducer = (state = initState, action: any) => {
@@ -23,6 +24,12 @@ export const rootReducer = (state = initState, action: any) => {
 				...state,
 				filtersSelected: action.payload,
 			}
+		case 'SET_DATA':
+			return {
+				...state,
+				data: action.payload,
+			}
+
 		default:
 			return state
 	}

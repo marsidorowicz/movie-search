@@ -48,6 +48,14 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	}
 
 	useEffect(() => {
+		if (!state) return
+		if (state?.root?.data) {
+			setDataFromFilters(state?.root?.data?.results)
+		}
+		return () => {}
+	}, [state])
+
+	useEffect(() => {
 		if (!title) return
 		dispatch(setTitleAction(title))
 		return () => {}
@@ -83,7 +91,7 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 							: 'No Data'}
 					</section>
 
-					{year && dataFromFilters && Array.isArray(dataFromFilters?.results) ? (
+					{dataFromFilters && Array.isArray(dataFromFilters?.results) ? (
 						<div>
 							<div>Last Search By Year</div>
 							<section id='searched-year' className='flex float-left w-full overflow-x-scroll scroll-smooth mb-3'>

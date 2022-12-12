@@ -12,7 +12,7 @@ import { UseLocalStorage } from '../../utilities/UseLocalStorage'
 import SimpleNotification from '../../utilities/SimpleNotifications'
 import req from '../../utilities/apiReqs'
 import { useDispatch } from 'react-redux'
-import { setTitleAction } from '../../state/action-creators'
+import { setDataAction, setTitleAction } from '../../state/action-creators'
 
 export default function ServerSideModal(props: { genre: any; sendData: (data: any) => void }) {
 	const [showChild, setShowChild] = useState(false)
@@ -52,6 +52,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 		}
 
 		setDataFromFilters(res)
+		dispatch(setDataAction(res))
 		onClose()
 	}
 
@@ -67,6 +68,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			year: year,
 			page: 1,
 		})
+		if (year && !title) return
 		if (!title) {
 			setMsg('title required')
 			setSeverity('error')

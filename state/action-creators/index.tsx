@@ -4,6 +4,7 @@ export enum Actions {
 	SET_THEME = 'SET_THEME',
 	SET_TITLE = 'SET_TITLE',
 	SET_FILTERS = 'SET_FILTERS',
+	SET_DATA = 'SET_DATA',
 }
 
 export const setThemeAction = (payload: any) => ({
@@ -18,5 +19,10 @@ export const setTitleAction = (payload: any) => ({
 
 export const setFiltersAction = (payload: any) => ({
 	type: Actions.SET_FILTERS,
+	payload,
+})
+
+export const setDataAction = (payload: any) => ({
+	type: Actions.SET_DATA,
 	payload,
 })

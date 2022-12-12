@@ -43,10 +43,6 @@ export default function CheckboxesTags(props: { genre: any }) {
 		return null
 	}
 
-	if (!selectedFilters && !selectedFilters?.length) {
-		return null
-	}
-
 	return (
 		<Autocomplete
 			multiple
@@ -70,7 +66,7 @@ export default function CheckboxesTags(props: { genre: any }) {
 				maxHeight: '20vh',
 			}}
 			// filterSelectedOptions
-			value={selectedFilters}
+			value={selectedFilters?.length ? selectedFilters : []}
 			isOptionEqualToValue={(option, value) => option.name === value.name}
 			getOptionLabel={(option: any) => option.name}
 			onChange={(event: any, newValue: any | null) => {
@@ -84,7 +80,7 @@ export default function CheckboxesTags(props: { genre: any }) {
 				dispatch(setFiltersAction(newValue))
 			}}
 			renderOption={(props, option, { selected }) => {
-				const checkedConfirmed = selectedFilters.filter((filter: any) => {
+				const checkedConfirmed = selectedFilters?.filter((filter: any) => {
 					return filter?.name === option?.name
 				})
 
