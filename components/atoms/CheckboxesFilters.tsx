@@ -79,6 +79,9 @@ export default function CheckboxesTags(props: { genre: any }) {
 					return filter?.name === option?.name
 				})
 
+				console.log('checkedConfirmed')
+				console.log(checkedConfirmed)
+
 				if (!checkedConfirmed) return null
 
 				return (

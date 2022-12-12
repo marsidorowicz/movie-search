@@ -52,7 +52,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 		}
 
 		setDataFromFilters(res)
-		setOpen(false)
+		onClose()
 	}
 
 	function search() {
@@ -86,7 +86,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 					<SearchIcon className='text-[7px] sm:text-[15px] md:text-[20px] lg:text-[25px]' />
 				</div>
 			</Button>
-			<Box ref={rootRef} className='text-[7px] sm:text-[15px] md:text-[20px] lg:text-[25px]'>
+			<Box ref={rootRef} className='text-[7px] sm:text-[15px] md:text-[20px] lg:text-[25px] w-full'>
 				<Modal
 					disablePortal
 					disableEnforceFocus
@@ -103,6 +103,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 					}}
 					container={() => rootRef.current}>
 					<Box
+						className='w-[80%] sm:w-[60&] md:w-[70%] lg:w-[50%]'
 						sx={{
 							position: 'relative',
 							color: 'black',
@@ -110,6 +111,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 							border: '1px solid red',
 							boxShadow: (theme) => theme.shadows[5],
 							p: 1,
+							// width: '90%',
 						}}>
 						<Typography id='server-modal-title' variant='h6' component='h2' className='text-white text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>
 							Search a Movie

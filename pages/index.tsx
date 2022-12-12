@@ -36,22 +36,15 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	const state = useSelector((state: any) => state.root)
 	const { t } = useTranslation('home')
 
-	console.log(dataFromFilters)
-	console.log(topRatedArray)
-
 	if (typeof window !== 'undefined') {
 		let url = new URL(window.location.href)
 
-		console.log(url)
-		console.log(url.search)
 		let arrOfObjects = {}
 		const searchParams: any = new URLSearchParams(url.search)
 		for (const [key, value] of searchParams.entries()) {
 			console.log(`${key}, ${value}`)
 			arrOfObjects[key] = value
 		}
-		console.log('arrOfObjects')
-		console.log(arrOfObjects)
 	}
 
 	useEffect(() => {
@@ -93,7 +86,7 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 					{year && dataFromFilters && Array.isArray(dataFromFilters?.results) ? (
 						<div>
 							<div>Last Search By Year</div>
-							<section id='searched-year' className='flex float-left w-full overflow-x-scroll scroll-smooth mb-10'>
+							<section id='searched-year' className='flex float-left w-full overflow-x-scroll scroll-smooth mb-3'>
 								{dataFromFilters?.results?.length
 									? dataFromFilters?.results?.map((movieInfoData: any, index: number) => {
 											return (
