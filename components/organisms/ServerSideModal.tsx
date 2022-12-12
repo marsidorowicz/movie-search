@@ -26,9 +26,6 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	const [msg, setMsg] = useState<string>('error')
 	const [dataFromFilters, setDataFromFilters] = UseLocalStorage('dataFromFilters', '')
 	const dispatch = useDispatch()
-	if (!showChild) {
-		return null
-	}
 
 	useEffect(() => {
 		setShowChild(true)
@@ -76,6 +73,9 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			setOpen(true)
 			return
 		}
+	}
+	if (!showChild) {
+		return null
 	}
 
 	return (
