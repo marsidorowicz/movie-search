@@ -78,7 +78,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 					<SearchIcon className='text-[7px] sm:text-[15px] md:text-[20px] lg:text-[25px]' />
 				</div>
 			</Button>
-			<Box ref={rootRef}>
+			<Box ref={rootRef} className='text-[7px] sm:text-[15px] md:text-[20px] lg:text-[25px]'>
 				<Modal
 					disablePortal
 					disableEnforceFocus
@@ -98,17 +98,19 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 						sx={{
 							position: 'relative',
 							color: 'black',
-							bgcolor: 'white',
-							border: '2px solid red',
+							bgcolor: '#df0a0a',
+							border: '1px solid red',
 							boxShadow: (theme) => theme.shadows[5],
 							p: 1,
 						}}>
-						<Typography id='server-modal-title' variant='h6' component='h2' className='text-black'>
+						<Typography id='server-modal-title' variant='h6' component='h2' className='text-white text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>
 							Search a Movie
 						</Typography>
-						<CheckboxesFilters genre={props?.genre} />
+						<div className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>
+							<CheckboxesFilters genre={props?.genre} />
+						</div>
 
-						<Typography sx={{ pt: 2 }}>
+						<Typography sx={{ pt: 2, pl: 1 }} className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>
 							<input
 								placeholder='Title'
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,7 +121,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 									dispatch(setTitleAction(newValue))
 								}}></input>
 						</Typography>
-						<Typography sx={{ pt: 2 }}>
+						<Typography sx={{ pt: 2 }} className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>
 							<input
 								placeholder='Year after 1900'
 								type={'number'}
@@ -133,10 +135,10 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 								}}></input>
 						</Typography>
 
-						<Button onClick={search} className='p-3 float-left'>
+						<Button onClick={search} className='p-1 float-left text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] bg-black text-white'>
 							SEARCH
 						</Button>
-						<Button onClick={onClose} className='p-3 float-right'>
+						<Button onClick={onClose} className='p-1 float-right text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]  bg-black text-white'>
 							CLOSE
 						</Button>
 					</Box>

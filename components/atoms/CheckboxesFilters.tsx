@@ -9,9 +9,10 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import { UseLocalStorage } from '../../utilities/UseLocalStorage'
 import { useDispatch, useSelector } from 'react-redux'
 import { setFiltersAction } from '../../state/action-creators'
+import { useEffect } from 'react'
 
-const icon = <CheckBoxOutlineBlankIcon fontSize='small' />
-const checkedIcon = <CheckBoxIcon fontSize='small' />
+const icon = <CheckBoxOutlineBlankIcon className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]' />
+const checkedIcon = <CheckBoxIcon className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]' />
 
 export default function CheckboxesTags(props: { genre: any }) {
 	const dispatch = useDispatch()
@@ -21,12 +22,40 @@ export default function CheckboxesTags(props: { genre: any }) {
 
 	if (!props?.genre) return null
 
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			document.body.style.overflow = 'hidden'
+		}
+
+		return () => {
+			if (typeof window !== 'undefined') {
+				document.body.style.overflow = 'unset'
+			}
+		}
+	}, [])
+
 	return (
 		<Autocomplete
 			multiple
+			ChipProps={{
+				sx: {
+					p: 0,
+					m: 0,
+				},
+				size: 'small',
+				className: 'text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]',
+			}}
+			ListboxProps={{
+				className: 'text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-0 m-0 max-h-[50px]',
+			}}
 			id='checkboxes'
 			options={props?.genre?.genres}
 			disableCloseOnSelect
+			sx={{
+				overflowY: 'scroll',
+				display: 'flex',
+				maxHeight: '20vh',
+			}}
 			// filterSelectedOptions
 			value={selectedFilters}
 			isOptionEqualToValue={(option, value) => option.name === value.name}
@@ -50,21 +79,24 @@ export default function CheckboxesTags(props: { genre: any }) {
 					return filter?.name === option?.name
 				})
 
+				if (!checkedConfirmed) return null
+
 				return (
 					<li {...props}>
-						<Checkbox
-							className='text-blue-500 bg-white'
-							icon={icon}
-							checkedIcon={checkedIcon}
-							style={{ marginRight: 8 }}
-							checked={checkedConfirmed.length ? true : false}
-						/>
+						<Checkbox className='' icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={checkedConfirmed.length ? true : false} />
 						{option.name}
 					</li>
 				)
 			}}
 			style={{ backgroundColor: 'white' }}
-			renderInput={(params) => <TextField className='text-black' {...params} label='Filters' placeholder='Choose all you need' />}
+			renderInput={(params) => (
+				<TextField
+					className='text-black text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]'
+					{...params}
+					label='Filters'
+					placeholder='Choose all you need'
+				/>
+			)}
 		/>
 	)
 }
