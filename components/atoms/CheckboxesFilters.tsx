@@ -87,7 +87,7 @@ export default function CheckboxesTags(props: { genre: any }) {
 							icon={icon}
 							checkedIcon={checkedIcon}
 							style={{ marginRight: 8 }}
-							checked={Array.isArray(checkedConfirmed) && checkedConfirmed?.length ? true : false}
+							// checked={Array.isArray(checkedConfirmed) && checkedConfirmed?.length ? true : false}
 						/>
 						{option.name}
 					</li>
