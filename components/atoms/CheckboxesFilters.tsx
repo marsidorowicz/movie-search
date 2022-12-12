@@ -14,19 +14,25 @@ import { useEffect, useState } from 'react'
 const icon = <CheckBoxOutlineBlankIcon className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]' />
 const checkedIcon = <CheckBoxIcon className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]' />
 
-export default function CheckboxesTags(props: { genre: any }) {
+export default function CheckboxesTags(props: { genre: { genres: any } }) {
 	const dispatch = useDispatch()
 	const [selectedFilters, setSelectedFilters] = UseLocalStorage('selectedFilters', '')
 	const state = useSelector((state: any) => state.root)
 	console.log(state)
 	const [showChild, setShowChild] = useState(false)
+	const [options, setOptions] = useState<any>([])
 
 	if (!props?.genre) return null
+
+	console.log('options')
+	console.log(options)
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
 			document.body.style.overflow = 'hidden'
 		}
+
+		setOptions(props?.genre?.genres)
 
 		return () => {
 			if (typeof window !== 'undefined') {
@@ -39,7 +45,7 @@ export default function CheckboxesTags(props: { genre: any }) {
 		setShowChild(true)
 	}, [])
 
-	if (!showChild) {
+	if (!showChild || (!options && !selectedFilters)) {
 		return null
 	}
 
@@ -80,10 +86,13 @@ export default function CheckboxesTags(props: { genre: any }) {
 				dispatch(setFiltersAction(newValue))
 			}}
 			renderOption={(props, option, { selected }) => {
-				if (!selectedFilters || !selectedFilters?.length) return
-				const checkedConfirmed = selectedFilters?.filter((filter: any) => {
-					return filter?.name === option?.name
-				})
+				const checkedConfirmed = selectedFilters?.length
+					? selectedFilters?.filter((filter: any) => {
+							return filter?.name === option?.name
+					  })
+					: options?.filter((filter: any) => {
+							return filter?.name === option?.name
+					  })
 
 				console.log('checkedConfirmed')
 				console.log(checkedConfirmed)
@@ -92,13 +101,13 @@ export default function CheckboxesTags(props: { genre: any }) {
 
 				return (
 					<li {...props}>
-						{/* <Checkbox
+						<Checkbox
 							className=''
 							icon={icon}
 							checkedIcon={checkedIcon}
 							style={{ marginRight: 8 }}
 							checked={Array.isArray(checkedConfirmed) && checkedConfirmed?.length ? true : false}
-						/> */}
+						/>
 						{option.name}
 					</li>
 				)
