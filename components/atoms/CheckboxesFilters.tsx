@@ -80,6 +80,7 @@ export default function CheckboxesTags(props: { genre: any }) {
 				dispatch(setFiltersAction(newValue))
 			}}
 			renderOption={(props, option, { selected }) => {
+				if (!selectedFilters || !selectedFilters?.length) return
 				const checkedConfirmed = selectedFilters?.filter((filter: any) => {
 					return filter?.name === option?.name
 				})
