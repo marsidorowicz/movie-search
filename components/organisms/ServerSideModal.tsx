@@ -138,7 +138,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 									e.preventDefault()
 									const newValue = e.target.value
 									if (!newValue) return
-									if (newValue.length > 4) return
+									// if (newValue.length > 4) return
 									setYear(newValue)
 								}}></input>
 						</Typography>

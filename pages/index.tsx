@@ -90,7 +90,7 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 							: 'No Data'}
 					</section>
 
-					{year && dataFromFilters && dataFromFilters?.results?.length ? (
+					{year && dataFromFilters && Array.isArray(dataFromFilters?.results) ? (
 						<div>
 							<div>Last Search By Year</div>
 							<section id='searched-year' className='flex float-left w-full overflow-x-scroll scroll-smooth mb-10'>
