@@ -4,30 +4,75 @@ import * as React from 'react'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Button, useDisclosure } from '@chakra-ui/react'
 import SearchIcon from '@mui/icons-material/Search'
 import CheckboxesFilters from '../atoms/CheckboxesFilters'
 import { UseLocalStorage } from '../../utilities/UseLocalStorage'
+import SimpleNotification from '../../utilities/SimpleNotifications'
+import req from '../../utilities/apiReqs'
+import { useDispatch } from 'react-redux'
+import { setTitleAction } from '../../state/action-creators'
 
-export default function ServerSideModal(props: { genre: any }) {
+export default function ServerSideModal(props: { genre: any; sendData: (data: any) => void }) {
 	const rootRef = useRef<HTMLDivElement>(null)
 	const { isOpen, onOpen, onClose } = useDisclosure()
 	const [title, setTitle] = UseLocalStorage('title', null)
-	const [year, setYear] = UseLocalStorage('year', '2022')
+	const [year, setYear] = UseLocalStorage('year', '')
 	const [isValidYear, setIsValidYEar] = useState('')
-	console.log('title')
-	console.log(year)
+	const [open, setOpen] = useState<boolean>(false)
+	const [severity, setSeverity] = useState<string>('error')
+	const [msg, setMsg] = useState<string>('error')
+	const [dataFromFilters, setDataFromFilters] = UseLocalStorage('dataFromFilters', '')
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		props?.sendData(dataFromFilters)
+		return () => {}
+	}, [dataFromFilters])
+
+	const getYear = async (props: { year: string; page?: number }) => {
+		if (!props?.year) return
+		console.log(props?.year)
+
+		const res = await fetch(
+			req.year + `&sort_by=popularity.desc&sort_by=vote_average.desc&primary_release_year=${props?.year}&page=${props?.page ? props?.page.toString() : '1'}`
+		).then((res) => res.json())
+		console.log('res')
+		console.log(res)
+		if (!res) {
+			setMsg('no response')
+			setSeverity('error')
+			setOpen(true)
+		}
+
+		setDataFromFilters(res)
+		setOpen(false)
+	}
 
 	function search() {
-		if (!year || year.length < 4 || parseInt(year) < 1900) {
-			console.log('wrong year')
-			setIsValidYEar('wrong year')
+		if (!year || year?.length < 4 || parseInt(year) < 1900) {
+			setMsg('wrong year')
+			setSeverity('error')
+			setOpen(true)
+
+			return
+		}
+		getYear({
+			year: year,
+			page: 1,
+		})
+		if (!title) {
+			setMsg('title required')
+			setSeverity('error')
+			setOpen(true)
+			return
 		}
 	}
 
 	return (
 		<Box>
+			<SimpleNotification open={open} setOpen={setOpen} message={msg} severity={severity} time={10000} />
 			<Button onClick={onOpen}>
 				<div className='text-[#ff0000] pb-1'>
 					<SearchIcon className='text-[7px] sm:text-[15px] md:text-[20px] lg:text-[25px]' />
@@ -75,6 +120,7 @@ export default function ServerSideModal(props: { genre: any }) {
 									e.preventDefault()
 									const newValue = e.target.value
 									setTitle(newValue)
+									dispatch(setTitleAction(newValue))
 								}}></input>
 						</Typography>
 						<Typography sx={{ pt: 2 }}>
@@ -85,8 +131,8 @@ export default function ServerSideModal(props: { genre: any }) {
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 									e.preventDefault()
 									const newValue = e.target.value
-									console.log(newValue.length)
-									if (newValue.length > 4) return
+									console.log(newValue?.length)
+									if (newValue?.length > 4) return
 									setYear(newValue)
 								}}></input>
 						</Typography>
@@ -97,7 +143,6 @@ export default function ServerSideModal(props: { genre: any }) {
 						<Button onClick={onClose} className='p-3 float-right'>
 							CLOSE
 						</Button>
-						<div className='text-red'>{isValidYear}</div>
 					</Box>
 				</Modal>
 			</Box>

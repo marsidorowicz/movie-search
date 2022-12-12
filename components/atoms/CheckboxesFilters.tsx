@@ -7,12 +7,17 @@ import Autocomplete from '@mui/material/Autocomplete'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import { UseLocalStorage } from '../../utilities/UseLocalStorage'
+import { useDispatch, useSelector } from 'react-redux'
+import { setFiltersAction } from '../../state/action-creators'
 
 const icon = <CheckBoxOutlineBlankIcon fontSize='small' />
 const checkedIcon = <CheckBoxIcon fontSize='small' />
 
 export default function CheckboxesTags(props: { genre: any }) {
+	const dispatch = useDispatch()
 	const [selectedFilters, setSelectedFilters] = UseLocalStorage('selectedFilters', null)
+	const state = useSelector((state: any) => state.root)
+	console.log(state)
 
 	if (!props?.genre) return null
 
@@ -34,6 +39,7 @@ export default function CheckboxesTags(props: { genre: any }) {
 				}
 
 				setSelectedFilters(newValue)
+				dispatch(setFiltersAction(newValue))
 			}}
 			renderOption={(props, option, { selected }) => {
 				selectedFilters.filter((filter: any) => {

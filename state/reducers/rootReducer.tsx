@@ -3,6 +3,7 @@
 const initState = {
 	theme: 'light',
 	title: '',
+	filtersSelected: {},
 }
 
 export const rootReducer = (state = initState, action: any) => {
@@ -16,6 +17,11 @@ export const rootReducer = (state = initState, action: any) => {
 			return {
 				...state,
 				title: action.payload,
+			}
+		case 'SET_FILTERS':
+			return {
+				...state,
+				filtersSelected: action.payload,
 			}
 		default:
 			return state

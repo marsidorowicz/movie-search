@@ -6,15 +6,10 @@ import { base } from '../../utilities/constants'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 
 function MainPoster(props: { data: any }) {
-	console.log('props?.data')
-	console.log(props?.data)
-	const topRatedMovie = props?.data[0]
-	console.log('topRatedMovie')
-	console.log(topRatedMovie)
+	const topRatedMovie = props?.data?.[0]
+
 	if (!topRatedMovie) return null
 	const url = `${base}${topRatedMovie?.backdrop_path || topRatedMovie?.poster_path}`
-	console.log(url)
-	console.log(topRatedMovie)
 
 	return (
 		<div className='pb-20'>
