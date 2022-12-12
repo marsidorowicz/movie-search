@@ -116,7 +116,13 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 						<Typography id='server-modal-title' variant='h6' component='h2' className='text-white text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>
 							Search a Movie
 						</Typography>
-						<div className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>{/* <CheckboxesFilters genre={props?.genre} /> */}</div>
+						{props?.genre ? (
+							<div className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>
+								<CheckboxesFilters genre={props?.genre} />
+							</div>
+						) : (
+							''
+						)}
 
 						<Typography sx={{ pt: 2, pl: 1 }} className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>
 							<input
