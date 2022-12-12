@@ -83,7 +83,7 @@ export default function CheckboxesTags(props: { genre: any }) {
 
 				return (
 					<li {...props}>
-						<Checkbox className='' icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={checkedConfirmed.length ? true : false} />
+						<Checkbox className='' icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={checkedConfirmed?.length ? true : false} />
 						{option.name}
 					</li>
 				)
