@@ -1,6 +1,6 @@
 /** @format */
 
-import { Component, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Layout from '../components/organisms/Layout'
 import MainPoster from '../components/atoms/MainPoster'
 import Home from '../components/organisms/Home'
@@ -22,32 +22,6 @@ export async function getServerSideProps(context: any) {
 			topRated: topRated.results,
 			genre: genre,
 		}, // will be passed to the page component as props
-	}
-}
-
-class ErrorBoundary extends Component {
-	constructor(props) {
-		super(props)
-		this.state = { hasError: false }
-	}
-
-	static getDerivedStateFromError(error) {
-		// Update state so the next render will show the fallback UI.
-		return { hasError: true }
-	}
-
-	componentDidCatch(error, errorInfo) {
-		// You can also log the error to an error reporting service
-		logErrorToMyService(error, errorInfo)
-	}
-
-	render() {
-		if (this.state.hasError) {
-			// You can render any custom fallback UI
-			return <h1>Something went wrong.</h1>
-		}
-
-		return this.props.children
 	}
 }
 
@@ -97,60 +71,55 @@ export function Root(props: { topRated: any; genre: any }) {
 	}
 	return (
 		<div>
-			<ErrorBoundary>
-				<Layout
-					genre={props?.genre}
-					sendData={(data) => {
-						setDataFromFilters(data)
-					}}>
-					<Home>
-						<MainPoster data={props?.topRated} />
-						<section id='top-rated' className='flex float-left w-full overflow-x-scroll scroll-smooth'>
-							{topRatedArray?.length
-								? topRatedArray.map((movieInfoData: any, index: number) => {
-										if (index === 0 || index > 7) return
-										return (
-											<div key={movieInfoData?.id}>
-												<MovieThumbnail movieInfo={movieInfoData} rating={index} />
-											</div>
-										)
-								  })
-								: 'No Data'}
-						</section>
+			<Layout
+				genre={props?.genre}
+				sendData={(data) => {
+					setDataFromFilters(data)
+				}}>
+				<Home>
+					<MainPoster data={props?.topRated} />
+					<section id='top-rated' className='flex float-left w-full overflow-x-scroll scroll-smooth'>
+						{topRatedArray?.length
+							? topRatedArray.map((movieInfoData: any, index: number) => {
+									if (index === 0 || index > 7) return
+									return (
+										<div key={movieInfoData?.id}>
+											<MovieThumbnail movieInfo={movieInfoData} rating={index} />
+										</div>
+									)
+							  })
+							: 'No Data'}
+					</section>
 
-						{year && dataFromFilters && dataFromFilters?.results?.length ? (
-							<div>
-								<div>Last Search By Year</div>
-								<section id='searched-year' className='flex float-left w-full overflow-x-scroll scroll-smooth mb-10'>
-									{dataFromFilters?.results?.length
-										? dataFromFilters?.results?.map((movieInfoData: any, index: number) => {
-												return (
-													<div key={movieInfoData?.id}>
-														<MovieThumbnailNotRated movieInfo={movieInfoData} />
-													</div>
-												)
-										  })
-										: 'No Data'}
-								</section>
-							</div>
-						) : (
-							''
-						)}
-						<Link to={'/play'}>Home</Link>
-					</Home>
-				</Layout>
-				{/* <Routes>
-					<Route path='/' element={<></>} />
-					<Route path='/play' element={<>A</>} />
-				</Routes> */}
-			</ErrorBoundary>
+					{year && dataFromFilters && dataFromFilters?.results?.length ? (
+						<div>
+							<div>Last Search By Year</div>
+							<section id='searched-year' className='flex float-left w-full overflow-x-scroll scroll-smooth mb-10'>
+								{dataFromFilters?.results?.length
+									? dataFromFilters?.results?.map((movieInfoData: any, index: number) => {
+											return (
+												<div key={movieInfoData?.id}>
+													<MovieThumbnailNotRated movieInfo={movieInfoData} />
+												</div>
+											)
+									  })
+									: 'No Data'}
+							</section>
+						</div>
+					) : (
+						''
+					)}
+					<Link to={'/play'}>Home</Link>
+				</Home>
+			</Layout>
+			<Routes>
+				<Route path='/' element={<></>} />
+				<Route path='/play' element={<>A</>} />
+			</Routes>
 		</div>
 	)
 }
 
 export default function App(props: { topRated: any; genre: any }) {
 	return <BrowserRouter children={<Root topRated={props?.topRated} genre={props?.genre} />}></BrowserRouter>
-}
-function logErrorToMyService(error: any, errorInfo: any) {
-	throw new Error('Function not implemented.')
 }
