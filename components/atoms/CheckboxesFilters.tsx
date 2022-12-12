@@ -9,7 +9,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import { UseLocalStorage } from '../../utilities/UseLocalStorage'
 import { useDispatch, useSelector } from 'react-redux'
 import { setFiltersAction } from '../../state/action-creators'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const icon = <CheckBoxOutlineBlankIcon className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]' />
 const checkedIcon = <CheckBoxIcon className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]' />
@@ -19,6 +19,7 @@ export default function CheckboxesTags(props: { genre: any }) {
 	const [selectedFilters, setSelectedFilters] = UseLocalStorage('selectedFilters', null)
 	const state = useSelector((state: any) => state.root)
 	console.log(state)
+	const [showChild, setShowChild] = useState(false)
 
 	if (!props?.genre) return null
 
@@ -33,6 +34,14 @@ export default function CheckboxesTags(props: { genre: any }) {
 			}
 		}
 	}, [])
+
+	useEffect(() => {
+		setShowChild(true)
+	}, [])
+
+	if (!showChild) {
+		return null
+	}
 
 	return (
 		<Autocomplete
@@ -82,13 +91,13 @@ export default function CheckboxesTags(props: { genre: any }) {
 
 				return (
 					<li {...props}>
-						{/* <Checkbox
+						<Checkbox
 							className=''
 							icon={icon}
 							checkedIcon={checkedIcon}
 							style={{ marginRight: 8 }}
 							checked={Array.isArray(checkedConfirmed) && checkedConfirmed?.length ? true : false}
-						/> */}
+						/>
 						{option.name}
 					</li>
 				)
