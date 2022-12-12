@@ -27,7 +27,7 @@ function MovieThumbnail(props: { movieInfo: any }) {
 				{movieDetails?.title || 'No Title'}
 			</h1>
 			<div className='relative left-0 top-0 flex pb-4'>
-				{url !== null ? (
+				{url ? (
 					<Image src={url ? url : ''} alt={movieDetails?.title || ''} style={{ objectFit: 'cover' }} width={'150'} height={'150'} />
 				) : (
 					<div className='w-[150px] h-[85px]'>No image</div>
