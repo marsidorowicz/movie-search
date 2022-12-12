@@ -115,7 +115,7 @@ export default function CheckboxesTags(props: { genre: { genres: any } }) {
 			style={{ backgroundColor: 'white' }}
 			renderInput={(params) => (
 				<TextField
-					className='text-black text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] z-10'
+					className='text-white text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] z-50'
 					{...params}
 					label='Filters'
 					placeholder='Choose all you need'
