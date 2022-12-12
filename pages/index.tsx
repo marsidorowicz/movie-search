@@ -60,12 +60,9 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	useEffect(() => {
 		if (!title) return
 		dispatch(setTitleAction(title))
-		return () => {}
-	}, [])
-
-	useEffect(() => {
 		setTopRatedArray(props?.topRated)
 		setShowChild(true)
+		return () => {}
 	}, [])
 
 	if (!showChild) {
@@ -90,12 +87,12 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 										</div>
 									)
 							  })
-							: 'No Data'}
+							: 'No Movie Found'}
 					</section>
 
 					{dataFromFilters && Array.isArray(dataFromFilters?.results) ? (
 						<div>
-							<div>Last Search By Year</div>
+							<div>Last Search: </div>
 							<section id='searched-year' className='flex float-left w-full overflow-x-scroll scroll-smooth mb-10'>
 								{dataFromFilters?.results?.length
 									? dataFromFilters?.results?.map((movieInfoData: any, index: number) => {
@@ -105,7 +102,7 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 												</div>
 											)
 									  })
-									: 'No Data'}
+									: 'No Movie Found'}
 							</section>
 						</div>
 					) : (

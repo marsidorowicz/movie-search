@@ -61,7 +61,7 @@ export default function CheckboxesTags(props: { genre: { genres: any } }) {
 				className: 'text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]',
 			}}
 			ListboxProps={{
-				className: 'text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-0 m-0 max-h-[50px] z-1',
+				className: 'text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-0 m-0 max-h-3rem ',
 			}}
 			id='checkboxes'
 			options={props?.genre?.genres}
@@ -90,7 +90,7 @@ export default function CheckboxesTags(props: { genre: { genres: any } }) {
 					? selectedFilters?.filter((filter: any) => {
 							return filter?.name === option?.name
 					  })
-					: null
+					: []
 
 				if (checkedConfirmed === null) return
 

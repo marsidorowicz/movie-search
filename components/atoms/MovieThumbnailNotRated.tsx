@@ -19,7 +19,7 @@ function MovieThumbnail(props: { movieInfo: any }) {
 		return () => {}
 	}, [props?.movieInfo])
 
-	if (!movieDetails || !url) return null
+	if (!movieDetails) return null
 
 	return (
 		<div className='relative p-2'>
@@ -27,7 +27,11 @@ function MovieThumbnail(props: { movieInfo: any }) {
 				{movieDetails?.title || 'No Title'}
 			</h1>
 			<div className='relative left-0 top-0 flex pb-4'>
-				<Image src={url ? url : ''} alt={movieDetails?.title || ''} style={{ objectFit: 'cover' }} width={'150'} height={'150'} />
+				{url ? (
+					<Image src={url ? url : ''} alt={movieDetails?.title || ''} style={{ objectFit: 'cover' }} width={'150'} height={'150'} />
+				) : (
+					<div className='w-[150px] h-[85px]'>No image</div>
+				)}
 			</div>
 
 			<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] font-bold'>{`Release Date: (${movieDetails?.release_date || 'unknown'})`}</p>

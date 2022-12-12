@@ -11,7 +11,7 @@ import CheckboxesFilters from '../atoms/CheckboxesFilters'
 import { UseLocalStorage } from '../../utilities/UseLocalStorage'
 import SimpleNotification from '../../utilities/SimpleNotifications'
 import req from '../../utilities/apiReqs'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setDataAction, setTitleAction } from '../../state/action-creators'
 
 export default function ServerSideModal(props: { genre: any; sendData: (data: any) => void }) {
@@ -28,10 +28,18 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	const [dataFromFilters, setDataFromFilters] = UseLocalStorage('dataFromFilters', '')
 
 	const [selectedFilters, setSelectedFilters] = UseLocalStorage('selectedFilters', '')
-
+	const state = useSelector((state: any) => state.root)
+	let ids: string = ''
 	useEffect(() => {
 		setShowChild(true)
 	}, [])
+
+	useEffect(() => {
+		// if (!year) return
+		// getYear({
+		// 	year: year,
+		// })
+	}, [state])
 
 	useEffect(() => {
 		if (!dataFromFilters) return
@@ -39,15 +47,22 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 		return () => {}
 	}, [dataFromFilters])
 
+	if (!state) return
+
 	const getYear = async (props: { year: string; page?: number }) => {
+		ids += '&with_genres='
 		if (!props?.year) return
 		console.log(props?.year)
-		const idsFiltering = selectedFilters?.length
-			? selectedFilters?.map((filter: any) => {
+		console.log('selectedFilters1111111111111111111111111111111111111111111')
+		console.log(selectedFilters)
+		const idsFiltering = state?.root.filtersSelected?.length
+			? state?.root.filtersSelected?.map((filter: any) => {
 					return filter?.id
 			  })
-			: null
-		let ids: string = '&with_genres='
+			: selectedFilters?.map((filter: any) => {
+					return filter?.id
+			  })
+
 		if (idsFiltering?.length > 0) {
 			for (let item in idsFiltering) {
 				ids += idsFiltering[item] + ','
