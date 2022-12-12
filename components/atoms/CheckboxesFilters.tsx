@@ -24,6 +24,9 @@ export default function CheckboxesTags(props: { genre: { genres: any } }) {
 
 	if (!props?.genre) return null
 
+	console.log('options')
+	console.log(options)
+
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
 			document.body.style.overflow = 'hidden'
@@ -87,9 +90,7 @@ export default function CheckboxesTags(props: { genre: { genres: any } }) {
 					? selectedFilters?.filter((filter: any) => {
 							return filter?.name === option?.name
 					  })
-					: options?.filter((filter: any) => {
-							return filter?.name === option?.name
-					  })
+					: null
 
 				if (checkedConfirmed === null) return
 
@@ -109,12 +110,10 @@ export default function CheckboxesTags(props: { genre: { genres: any } }) {
 			style={{ backgroundColor: 'white' }}
 			renderInput={(params) => (
 				<TextField
-					className=' text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] z-50'
+					className='text-white text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] z-50'
 					{...params}
+					label='Filters'
 					placeholder='Choose all you need'
-					sx={{
-						bgcolor: 'white',
-					}}
 				/>
 			)}
 		/>

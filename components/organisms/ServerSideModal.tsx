@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux'
 import { setDataAction, setTitleAction } from '../../state/action-creators'
 
 export default function ServerSideModal(props: { genre: any; sendData: (data: any) => void }) {
+	const dispatch = useDispatch()
 	const [showChild, setShowChild] = useState(false)
 	const rootRef = useRef<HTMLDivElement>(null)
 	const { isOpen, onOpen, onClose } = useDisclosure()
@@ -25,7 +26,8 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	const [severity, setSeverity] = useState<string>('error')
 	const [msg, setMsg] = useState<string>('error')
 	const [dataFromFilters, setDataFromFilters] = UseLocalStorage('dataFromFilters', '')
-	const dispatch = useDispatch()
+
+	const [selectedFilters, setSelectedFilters] = UseLocalStorage('selectedFilters', '')
 
 	useEffect(() => {
 		setShowChild(true)
@@ -40,9 +42,26 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	const getYear = async (props: { year: string; page?: number }) => {
 		if (!props?.year) return
 		console.log(props?.year)
+		const idsFiltering = selectedFilters?.length
+			? selectedFilters?.map((filter: any) => {
+					return filter?.id
+			  })
+			: null
+		let ids: string = '&with_genres='
+		if (idsFiltering?.length > 0) {
+			for (let item in idsFiltering) {
+				ids += idsFiltering[item] + ','
+			}
+		}
+		console.log('idsFiltering')
+		console.log(idsFiltering)
+		console.log(ids)
 
 		const res = await fetch(
-			req.year + `&sort_by=popularity.desc&sort_by=vote_average.desc&primary_release_year=${props?.year}&page=${props?.page ? props?.page.toString() : '1'}`
+			req.year +
+				`&sort_by=popularity.desc&sort_by=vote_average.desc&primary_release_year=${props?.year}&page=${props?.page ? props?.page.toString() : '1'}${
+					idsFiltering?.length ? ids : ''
+				}`
 		).then((res) => res.json())
 		console.log('res')
 		console.log(res)
