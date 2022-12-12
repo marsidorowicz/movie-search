@@ -60,9 +60,12 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	useEffect(() => {
 		if (!title) return
 		dispatch(setTitleAction(title))
+		return () => {}
+	}, [])
+
+	useEffect(() => {
 		setTopRatedArray(props?.topRated)
 		setShowChild(true)
-		return () => {}
 	}, [])
 
 	if (!showChild) {
