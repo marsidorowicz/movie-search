@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux'
 import { setTitleAction } from '../../state/action-creators'
 
 export default function ServerSideModal(props: { genre: any; sendData: (data: any) => void }) {
+	const [showChild, setShowChild] = useState(false)
 	const rootRef = useRef<HTMLDivElement>(null)
 	const { isOpen, onOpen, onClose } = useDisclosure()
 	const [title, setTitle] = UseLocalStorage('title', null)
@@ -25,6 +26,14 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	const [msg, setMsg] = useState<string>('error')
 	const [dataFromFilters, setDataFromFilters] = UseLocalStorage('dataFromFilters', '')
 	const dispatch = useDispatch()
+
+	useEffect(() => {
+		setShowChild(true)
+	}, [])
+
+	if (!showChild) {
+		return null
+	}
 
 	useEffect(() => {
 		props?.sendData(dataFromFilters)
