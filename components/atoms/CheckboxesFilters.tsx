@@ -43,6 +43,10 @@ export default function CheckboxesTags(props: { genre: any }) {
 		return null
 	}
 
+	if (!selectedFilters && selectedFilters?.length) {
+		return null
+	}
+
 	return (
 		<Autocomplete
 			multiple
