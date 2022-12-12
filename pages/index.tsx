@@ -49,7 +49,7 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 
 	useEffect(() => {
 		if (!state) return
-		if (state?.root?.data) {
+		if (state?.root?.data?.results) {
 			setDataFromFilters(state?.root?.data?.results)
 		}
 		return () => {}

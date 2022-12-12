@@ -16,7 +16,7 @@ const checkedIcon = <CheckBoxIcon className='text-[6px] sm:text-[10px] md:text-[
 
 export default function CheckboxesTags(props: { genre: any }) {
 	const dispatch = useDispatch()
-	const [selectedFilters, setSelectedFilters] = UseLocalStorage('selectedFilters', null)
+	const [selectedFilters, setSelectedFilters] = UseLocalStorage('selectedFilters', '')
 	const state = useSelector((state: any) => state.root)
 	console.log(state)
 	const [showChild, setShowChild] = useState(false)

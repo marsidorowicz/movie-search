@@ -32,6 +32,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	}, [])
 
 	useEffect(() => {
+		if (!dataFromFilters) return
 		props?.sendData(dataFromFilters)
 		return () => {}
 	}, [dataFromFilters])
@@ -50,6 +51,8 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			setSeverity('error')
 			setOpen(true)
 		}
+		console.log('res*************************')
+		console.log(res)
 
 		setDataFromFilters(res)
 		dispatch(setDataAction(res))
@@ -76,6 +79,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			return
 		}
 	}
+
 	if (!showChild) {
 		return null
 	}
