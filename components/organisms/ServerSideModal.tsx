@@ -26,14 +26,13 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	const [msg, setMsg] = useState<string>('error')
 	const [dataFromFilters, setDataFromFilters] = UseLocalStorage('dataFromFilters', '')
 	const dispatch = useDispatch()
+	if (!showChild) {
+		return null
+	}
 
 	useEffect(() => {
 		setShowChild(true)
 	}, [])
-
-	if (!showChild) {
-		return null
-	}
 
 	useEffect(() => {
 		props?.sendData(dataFromFilters)
