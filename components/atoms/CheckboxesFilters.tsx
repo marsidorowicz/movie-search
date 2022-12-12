@@ -59,7 +59,7 @@ export default function CheckboxesTags(props: { genre: any }) {
 				className: 'text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]',
 			}}
 			ListboxProps={{
-				className: 'text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-0 m-0 max-h-[50px]',
+				className: 'text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-0 m-0 max-h-[50px] z-1',
 			}}
 			id='checkboxes'
 			options={props?.genre?.genres}
@@ -95,13 +95,13 @@ export default function CheckboxesTags(props: { genre: any }) {
 
 				return (
 					<li {...props}>
-						<Checkbox
+						{/* <Checkbox
 							className=''
 							icon={icon}
 							checkedIcon={checkedIcon}
 							style={{ marginRight: 8 }}
 							checked={Array.isArray(checkedConfirmed) && checkedConfirmed?.length ? true : false}
-						/>
+						/> */}
 						{option.name}
 					</li>
 				)
@@ -109,7 +109,7 @@ export default function CheckboxesTags(props: { genre: any }) {
 			style={{ backgroundColor: 'white' }}
 			renderInput={(params) => (
 				<TextField
-					className='text-black text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]'
+					className='text-black text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] z-10'
 					{...params}
 					label='Filters'
 					placeholder='Choose all you need'
