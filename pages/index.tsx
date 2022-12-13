@@ -35,19 +35,6 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	const dispatch = useDispatch()
 	const state = useSelector((state: any) => state.root)
 	const { t } = useTranslation('home')
-	console.log(state)
-	console.log(selectedFilters)
-
-	if (typeof window !== 'undefined') {
-		let url = new URL(window.location.href)
-
-		let arrOfObjects = {}
-		const searchParams: any = new URLSearchParams(url.search)
-		for (const [key, value] of searchParams.entries()) {
-			console.log(`${key}, ${value}`)
-			arrOfObjects[key] = value
-		}
-	}
 
 	useEffect(() => {
 		if (!state) return
@@ -58,14 +45,11 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	}, [state])
 
 	useEffect(() => {
+		setTopRatedArray(props?.topRated)
+		setShowChild(true)
 		if (!title) return
 		dispatch(setTitleAction(title))
 		return () => {}
-	}, [])
-
-	useEffect(() => {
-		setTopRatedArray(props?.topRated)
-		setShowChild(true)
 	}, [])
 
 	if (!showChild) {
