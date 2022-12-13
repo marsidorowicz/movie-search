@@ -52,9 +52,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	const getYear = async (props: { year: string; page?: number }) => {
 		ids += '&with_genres='
 		if (!props?.year) return
-		console.log(props?.year)
-		console.log('selectedFilters1111111111111111111111111111111111111111111')
-		console.log(selectedFilters)
+
 		const idsFiltering = state?.root.filtersSelected?.length
 			? state?.root.filtersSelected?.map((filter: any) => {
 					return filter?.id
@@ -68,9 +66,6 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 				ids += idsFiltering[item] + ','
 			}
 		}
-		console.log('idsFiltering')
-		console.log(idsFiltering)
-		console.log(ids)
 
 		const res = await fetch(
 			req.year +
@@ -78,15 +73,12 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 					idsFiltering?.length ? ids : ''
 				}`
 		).then((res) => res.json())
-		console.log('res')
-		console.log(res)
+
 		if (!res) {
 			setMsg('no response')
 			setSeverity('error')
 			setOpen(true)
 		}
-		console.log('res*************************')
-		console.log(res)
 
 		setDataFromFilters(res)
 		dispatch(setDataAction(res))
@@ -165,25 +157,25 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 
 						<Typography sx={{ pt: 2, pl: 1 }} className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>
 							<input
+								className='p-1'
 								placeholder='Title'
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 									e.preventDefault()
 									const newValue = e.target.value
-									if (!newValue) return
 									setTitle(newValue)
 									dispatch(setTitleAction(newValue))
 								}}></input>
 						</Typography>
 						<Typography sx={{ pt: 2 }} className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>
 							<input
+								className='p-1'
 								placeholder='Year after 1900'
 								type={'number'}
 								value={year}
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 									e.preventDefault()
 									const newValue = e.target.value
-									if (!newValue) return
-									// if (newValue.length > 4) return
+									if (newValue?.length > 4) return
 									setYear(newValue)
 								}}></input>
 						</Typography>

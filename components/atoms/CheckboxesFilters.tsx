@@ -24,9 +24,6 @@ export default function CheckboxesTags(props: { genre: { genres: any } }) {
 
 	if (!props?.genre) return null
 
-	console.log('options')
-	console.log(options)
-
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
 			document.body.style.overflow = 'hidden'

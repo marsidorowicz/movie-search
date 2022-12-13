@@ -7,7 +7,7 @@ import Header from '../atoms/Header'
 
 function Layout(props: { children: any; genre: any[]; sendData: (data: any) => void }) {
 	return (
-		<Box className='bg-gradient-to-t from-gray-900 to-black relative h-screen z-10'>
+		<Box className='bg-gradient-to-t from-gray-900 to-black absolute h-[100%] w-[100%] -z-10'>
 			<Head>
 				<title>Movies!</title>
 				<link rel='icon' href='./public/assets/favicon.png'></link>

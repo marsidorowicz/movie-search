@@ -26,16 +26,16 @@ function MovieThumbnail(props: { movieInfo: any }) {
 			<h1 className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] font-bold min-h-[20px] sm:min-h-[50px] md:min-h-[70px] lg:sm:min-h-[100px]'>
 				{movieDetails?.title || 'No Title'}
 			</h1>
-			<div className='relative left-0 top-0 flex pb-4'>
+			<div className='flex flex-wrap justify-center'>
 				{url ? (
-					<Image src={url ? url : ''} alt={movieDetails?.title || ''} style={{ objectFit: 'cover' }} width={'150'} height={'150'} />
+					<img src={url ? url : ''} className='p-1 bg-white border rounded max-w-[6rem] max-h-[10rem] ' alt={movieDetails?.title || ''} />
 				) : (
-					<div className='w-[150px] h-[85px]'>No image</div>
+					<div className='p-1 bg-white border rounded max-w-[6rem] max-h-[10rem]'>No image</div>
 				)}
 			</div>
 
 			<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] font-bold'>{`Release Date: (${movieDetails?.release_date || 'unknown'})`}</p>
-			<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]'>{'Vote Average: ' + movieDetails?.vote_average}</p>
+			<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]'>{'Vote Average: ' + movieDetails?.vote_average || 'unknown'}</p>
 			<div>
 				<div className='p-2 flex justify-center'>
 					<button

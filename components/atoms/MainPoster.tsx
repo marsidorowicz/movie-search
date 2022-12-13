@@ -4,10 +4,11 @@ import Image from 'next/image'
 import React from 'react'
 import { base } from '../../utilities/constants'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
+import { useRouter } from 'next/router'
 
 function MainPoster(props: { data: any }) {
 	const topRatedMovie = props?.data?.[0]
-
+	const router = useRouter()
 	if (!topRatedMovie) return null
 	const url = `${base}${topRatedMovie?.backdrop_path || topRatedMovie?.poster_path}`
 
@@ -22,7 +23,9 @@ function MainPoster(props: { data: any }) {
 			<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>{'Vote Average: ' + topRatedMovie?.vote_average}</p>
 			<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>{topRatedMovie?.overview}</p>
 			<div className='p-2 flex justify-center'>
-				<button className='text-1xl sm:text-2xl md:text-4xl lg:text-6xl font-bold flex shadow-white shadow align-middle' onClick={() => ''}>
+				<button
+					className='text-1xl sm:text-2xl md:text-4xl lg:text-6xl font-bold flex shadow-white shadow align-middle'
+					onClick={() => router.push(`/play/?id=${topRatedMovie?.id || 'noId'}`)}>
 					<PlayCircleOutlineIcon className='text-1xl sm:text-2xl md:text-4xl lg:text-6xl font-bold flex' />
 					PLAY
 				</button>

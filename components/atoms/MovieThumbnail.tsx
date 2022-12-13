@@ -21,15 +21,15 @@ function MovieThumbnail(props: { movieInfo: any; rating: number }) {
 	if (!movieDetails || !url) return null
 
 	return (
-		<div className='relative p-2'>
+		<div className='relative p-2 '>
 			<h1 className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] font-bold min-h-[20px] sm:min-h-[50px] md:min-h-[70px] lg:sm:min-h-[100px]'>
 				{`No. ${props?.rating + 1} - ` + movieDetails?.title || 'No Title'}
 			</h1>
-			<div className='relative left-0 top-0 flex pb-4'>
+			<div className='flex flex-wrap justify-center'>
 				{url ? (
-					<Image src={url ? url : ''} alt={movieDetails?.title || ''} style={{ objectFit: 'cover' }} width={'150'} height={'150'} />
+					<img src={url ? url : ''} className='p-1 bg-white border rounded max-w-[6rem] max-h-[10rem] ' alt={movieDetails?.title || ''} />
 				) : (
-					<div className='w-[150px] h-[85px]'>No image</div>
+					<div className='p-1 bg-white border rounded max-w-[6rem] max-h-[10rem]'>No image</div>
 				)}
 			</div>
 

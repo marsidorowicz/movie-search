@@ -26,7 +26,7 @@ function Header(props: { genre: any[]; sendData: (data: any) => void }) {
 		}, [])
 
 		return (
-			<header className={`${scrolled && 'bg-black  w-full'} p-1`}>
+			<header className={` ${scrolled && 'bg-black w-full max-h-[5rem]'} p-0.1`}>
 				<div className='flex items-center space-x-3 md:space-x-5 float-left m-1 '>
 					<LiveTv className=' text-[7px] sm:text-[12px] md:text-[15px] lg:text-[25px]' sx={{ color: 'red' }} />
 					<ul className='hidden space-x-4 sm:flex text-[7px] sm:text-[12px] md:text-[15px] lg:text-[35px] xl:text-[55px]'>
