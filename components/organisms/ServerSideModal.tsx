@@ -99,6 +99,9 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			}
 		)
 
+		console.log('res1111111111111111111111111111111111')
+		console.log(res)
+
 		if (!res) {
 			setMsg('no response')
 			setSeverity('error')
@@ -106,8 +109,8 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			return
 		}
 
-		setDataFromFilters(res)
-		dispatch(setDataAction(res))
+		setDataFromFilters(res?.data)
+		dispatch(setDataAction(res?.data))
 
 		onClose()
 		if (!year && !title) return
