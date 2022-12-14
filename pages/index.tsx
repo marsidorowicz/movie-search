@@ -46,9 +46,6 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	const router = useRouter()
 	let arrOfObjects: any = {}
 
-	console.log(state)
-	console.log(arrOfObjects)
-
 	const getMovieDataByTitleGenreYear = async (props: { year?: string; title?: string; genre?: any }) => {
 		if (!props?.year && !props?.title && !props?.genre) return
 		const response = await searchMovie({
@@ -149,8 +146,6 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	}, [])
 
 	useEffect(() => {
-		console.log('state update')
-
 		if (!state) return
 		if (state?.root?.data?.length) {
 			setDataFromFilters(state?.root?.data)
@@ -183,9 +178,6 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	if (!showChild) {
 		return null
 	}
-
-	console.log('dataFromFilters')
-	console.log(dataFromFilters)
 
 	return (
 		<div>

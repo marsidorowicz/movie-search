@@ -24,7 +24,6 @@ function Play() {
 			setSeverity('error')
 			setOpen(true)
 		}
-		console.log(res)
 		setMovie(res)
 	}
 
@@ -44,8 +43,6 @@ function Play() {
 
 		return () => {}
 	}, [])
-	console.log(movieId)
-	console.log(urlQuery)
 
 	const movieUrl = `${base}${movie?.backdrop_path || movie?.poster_path}`
 

@@ -1,9 +1,7 @@
 /** @format */
 
 import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
 import { base } from '../../utilities/constants'
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useRouter } from 'next/router'
 
 function MovieThumbnail(props: { movieInfo: any }) {

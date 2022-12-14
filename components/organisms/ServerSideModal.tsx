@@ -33,6 +33,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	const router = useRouter()
 	let ids: string = ''
 	useEffect(() => {
+		setYear('')
 		setShowChild(true)
 	}, [])
 
