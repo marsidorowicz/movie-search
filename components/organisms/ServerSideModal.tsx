@@ -77,6 +77,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			setDataFromFilters(res)
 			dispatch(setDataAction(res))
 			onClose()
+			router.push(`/${year ? '?year=' + year : '&'} ${title ? '&title=' + title : ''} ${ids !== '&with_genres=' ? ids : ''}`)
 			return
 		}
 
@@ -90,10 +91,12 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			setMsg('no response')
 			setSeverity('error')
 			setOpen(true)
+			return
 		}
 
 		setDataFromFilters(res)
 		dispatch(setDataAction(res))
+		router.push(`/${year ? '?year=' + year : '&'} ${title ? '&title=' + title : ''} ${ids !== '&with_genres=' ? ids : ''}`)
 		onClose()
 	}
 
@@ -113,6 +116,8 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			setMsg('title or year is required required')
 			setSeverity('error')
 			setOpen(true)
+			router.push(`/`)
+
 			return
 		}
 		searchMovieFunction()
@@ -190,6 +195,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 									const newValue = e.target.value
 									if (newValue?.length > 4) return
 									setYear(newValue)
+									dispatch(setYearAction(newValue))
 								}}></input>
 						</Typography>
 
