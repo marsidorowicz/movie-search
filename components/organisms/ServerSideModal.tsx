@@ -62,7 +62,9 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 		}
 
 		if (!title && year) {
-			const res = await fetch(req.year + '&year=' + year + idsprefix + ids + '&sort_by=popularity.desc').then((res) => res.json())
+			const res = await fetch('https://api.themoviedb.org/3/search/movie/?' + '&year=' + year + idsprefix + ids + '&sort_by=popularity.desc').then((res) =>
+				res.json()
+			)
 			setDataFromFilters(res)
 			dispatch(setDataAction(res))
 			// router.push(`/${year ? '?year=' + year : '&'} ${title ? '&title=' + title : ''} ${ids !== '' ? '&genre=' + ids : ''}`)
