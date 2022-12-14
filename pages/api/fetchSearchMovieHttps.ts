@@ -44,7 +44,7 @@ export const FetchSearchMovie = async (req: NextApiRequest, res: NextApiResponse
 		console.log('resFiltered')
 		console.log(resFiltered)
 
-		return res.status(200).json({ results: resFiltered?.length > 0 ? resFiltered : response })
+		return res.status(200).json({ data: { results: resFiltered?.length > 0 ? resFiltered : response } })
 	} catch (error) {
 		console.log(error)
 
