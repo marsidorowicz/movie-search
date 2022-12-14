@@ -26,7 +26,7 @@ export const searchMovie = async (props: { year?: string; title: string; genre?:
 		console.log(genreIds)
 	}
 
-	const res = await fetch(`${BASE_URL_TMDB}/search/movie/?${query}&api_key=${API_KEY}`).then((res) => res.json())
+	const res = await fetch(`https://api.themoviedb.org/3/search/movie/?${query}&api_key=${API_KEY}`).then((res) => res.json())
 	console.log('res')
 	console.log(res)
 

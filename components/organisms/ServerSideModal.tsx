@@ -65,7 +65,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			const res = await fetch(req.year + '&year=' + year + idsprefix + ids + '&sort_by=popularity.desc').then((res) => res.json())
 			setDataFromFilters(res)
 			dispatch(setDataAction(res))
-			router.push(`https://${year ? '?year=' + year : '&'} ${title ? '&title=' + title : ''} ${ids !== '' ? '&genre=' + ids : ''}`)
+			router.push(`/${year ? '?year=' + year : '&'} ${title ? '&title=' + title : ''} ${ids !== '' ? '&genre=' + ids : ''}`)
 			return
 		}
 
@@ -83,7 +83,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 
 		setDataFromFilters(res)
 		dispatch(setDataAction(res))
-		router.push(`https://${year ? '?year=' + year : '&'} ${title ? '&title=' + title : ''} ${ids !== '' ? '&genre=' + ids : ''}`)
+		router.push(`/${year ? '?year=' + year : '&'} ${title ? '&title=' + title : ''} ${ids !== '' ? '&genre=' + ids : ''}`)
 		onClose()
 	}
 
