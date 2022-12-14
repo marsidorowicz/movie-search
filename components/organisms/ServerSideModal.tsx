@@ -85,36 +85,38 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			return
 		}
 		console.log('here')
+		try {
+			const res = await axios.post(
+				'/api/fetchSearchMovieHttps',
+				JSON.stringify({
+					year: year,
+					title: title,
+					genre: selectedFilters?.length > 0 ? selectedFilters : [],
+				}),
+				{
+					headers: { 'Content-Type': 'application/json' },
+					withCredentials: false,
+				}
+			)
+			console.log('res1111111111111111111111111111111111')
+			console.log(res)
 
-		const res = await axios.post(
-			'/api/fetchSearchMovieHttps',
-			JSON.stringify({
-				year: year,
-				title: title,
-				genre: selectedFilters?.length > 0 ? selectedFilters : [],
-			}),
-			{
-				headers: { 'Content-Type': 'application/json' },
-				withCredentials: false,
+			if (!res) {
+				setMsg('no response')
+				setSeverity('error')
+				setOpen(true)
+				return
 			}
-		)
 
-		console.log('res1111111111111111111111111111111111')
-		console.log(res)
+			setDataFromFilters(res?.data)
+			dispatch(setDataAction(res?.data))
 
-		if (!res) {
-			setMsg('no response')
-			setSeverity('error')
-			setOpen(true)
-			return
+			onClose()
+			if (!year && !title) return
+			router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genres=' + ids : ''}`)
+		} catch (error) {
+			console.log(error)
 		}
-
-		setDataFromFilters(res?.data)
-		dispatch(setDataAction(res?.data))
-
-		onClose()
-		if (!year && !title) return
-		router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genres=' + ids : ''}`)
 	}
 
 	function search() {
