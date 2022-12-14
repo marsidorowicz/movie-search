@@ -37,13 +37,15 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 		setYear('')
 		setShowChild(true)
 	}, [])
+	console.log(state)
 
 	useEffect(() => {
-		// if (!year) return
-		// getYear({
-		// 	year: year,
-		// })
-	}, [state])
+		if (!state) return
+		if (state?.root?.filtersSelected?.length) {
+			setSelectedFilters(state?.root?.filtersSelected)
+		}
+		return () => {}
+	}, [state?.root?.filtersSelected])
 
 	useEffect(() => {
 		if (!dataFromFilters) return
@@ -73,16 +75,20 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			}
 		}
 		if (!title && year) {
-			const res = await fetch(req.year + '&year=' + year + idPref + ids).then((res) => res.json())
-			console.log('res*****************************************')
-			console.log(res)
+			try {
+				const res = await fetch(req.year + '&year=' + year + idPref + ids).then((res) => res.json())
+				console.log('res*****************************************')
+				console.log(res)
 
-			setDataFromFilters(res)
-			dispatch(setDataAction(res))
-			onClose()
-			if (!year && !title) return
-			router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genres=' + ids : ''}`)
-			return
+				setDataFromFilters(res)
+				dispatch(setDataAction(res))
+				onClose()
+				if (!year && !title) return
+				router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genres=' + ids : ''}`)
+				return
+			} catch (error) {
+				console.log(error)
+			}
 		}
 		console.log('here')
 		try {
@@ -100,6 +106,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			)
 			console.log('res1111111111111111111111111111111111')
 			console.log(res)
+			console.log(selectedFilters)
 
 			if (!res) {
 				setMsg('no response')
@@ -108,8 +115,8 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 				return
 			}
 
-			setDataFromFilters(res?.data?.results)
-			dispatch(setDataAction(res?.data?.results))
+			setDataFromFilters(res?.data)
+			dispatch(setDataAction(res?.data))
 
 			onClose()
 			if (!year && !title) return

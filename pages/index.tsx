@@ -146,6 +146,9 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	}, [])
 
 	useEffect(() => {
+		console.log('state update')
+		console.log(dataFromFilters)
+
 		if (!state) return
 		if (state?.root?.data?.length) {
 			setDataFromFilters(state?.root?.data)
