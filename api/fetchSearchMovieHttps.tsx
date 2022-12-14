@@ -3,6 +3,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { GetServerSideProps, NextApiRequest, NextApiResponse } from 'next'
 import dotenv from 'dotenv'
+import { API_KEY } from '../utilities/apiReqs'
 dotenv.config()
 
 export const facekiGetToken = async (req: NextApiRequest, res: NextApiResponse) => {
