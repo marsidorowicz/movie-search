@@ -51,9 +51,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			? state?.root.filtersSelected?.map((filter: any) => {
 					return filter?.id
 			  })
-			: selectedFilters?.map((filter: any) => {
-					return filter?.id
-			  })
+			: []
 
 		if (idsFiltering?.length > 0) {
 			for (let item in idsFiltering) {
