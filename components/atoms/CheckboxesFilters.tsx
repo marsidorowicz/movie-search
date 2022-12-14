@@ -18,7 +18,7 @@ export default function CheckboxesTags(props: { genre: { genres: any } }) {
 	const dispatch = useDispatch()
 	const [selectedFilters, setSelectedFilters] = UseLocalStorage('selectedFilters', '')
 	const state = useSelector((state: any) => state.root)
-	console.log(state)
+
 	const [showChild, setShowChild] = useState(false)
 	const [options, setOptions] = useState<any>([])
 
@@ -58,7 +58,7 @@ export default function CheckboxesTags(props: { genre: { genres: any } }) {
 				className: 'text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]',
 			}}
 			ListboxProps={{
-				className: 'text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-0 m-0 max-h-3rem ',
+				className: 'text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px]',
 			}}
 			id='checkboxes'
 			options={props?.genre?.genres}

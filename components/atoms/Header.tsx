@@ -4,6 +4,7 @@ import LiveTv from '@mui/icons-material/LiveTv'
 import { useEffect, useState } from 'react'
 import ServerSideModal from '../organisms/ServerSideModal'
 import { useRouter } from 'next/router'
+import HomeIcon from '@mui/icons-material/Home'
 
 function Header(props: { genre: any[]; sendData: (data: any) => void }) {
 	const [scrolled, setScrolled] = useState(false)
@@ -26,9 +27,15 @@ function Header(props: { genre: any[]; sendData: (data: any) => void }) {
 		}, [])
 
 		return (
-			<header className={` ${scrolled && 'bg-black w-full max-h-[5rem]'} p-0.1`}>
+			<header className={` ${scrolled && 'bg-black w-full '} p-0.1 max-h-[1rem] sm:max-h-[2rem] md:max-h-[3rem] lg:max-h-[3rem]`}>
 				<div className='flex items-center space-x-3 md:space-x-5 float-left m-1 '>
 					<LiveTv className=' text-[7px] sm:text-[12px] md:text-[15px] lg:text-[25px]' sx={{ color: 'red' }} />
+					<HomeIcon
+						className='flex sm:hidden text-[7px] sm:text-[12px] md:text-[15px] lg:text-[25px] cursor-pointer'
+						sx={{ color: 'red' }}
+						onClick={() => router.push('/')}
+					/>
+					<ServerSideModal genre={props?.genre} sendData={(data: any) => props?.sendData(data)} />
 					<ul className='hidden space-x-4 sm:flex text-[7px] sm:text-[12px] md:text-[15px] lg:text-[35px] xl:text-[55px]'>
 						<li className='hLink' onClick={() => router.push('/')}>
 							Home
@@ -40,9 +47,7 @@ function Header(props: { genre: any[]; sendData: (data: any) => void }) {
 						<li className='hLink'>About Us</li>
 					</ul>
 				</div>
-				<div className='flex float-right ml-1'>
-					<ServerSideModal genre={props?.genre} sendData={(data: any) => props?.sendData(data)} />
-				</div>
+				<div className='flex float-right ml-1'></div>
 			</header>
 		)
 	}

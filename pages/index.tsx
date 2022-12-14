@@ -4,15 +4,16 @@ import { useEffect, useState } from 'react'
 import Layout from '../components/organisms/Layout'
 import MainPoster from '../components/atoms/MainPoster'
 import Home from '../components/organisms/Home'
-import req from '../utilities/apiReqs'
+import req, { searchMovie } from '../utilities/apiReqs'
 import MovieThumbnail from '../components/atoms/MovieThumbnail'
 import { UseLocalStorage } from '../utilities/UseLocalStorage'
 import MovieThumbnailNotRated from '../components/atoms/MovieThumbnailNotRated'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
-import { setTitleAction } from '../state/action-creators'
-import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom'
+import { setDataAction, setFiltersAction, setIdAction, setTitleAction, setYearAction } from '../state/action-creators'
+import { fetchMovieData } from '../utilities/apiReqs'
+import SimpleNotification from '../utilities/SimpleNotifications'
 
 export async function getServerSideProps(context: any) {
 	const [topRated, genre] = await Promise.all([fetch(req.topRated).then((res) => res.json()), fetch(req.genreList).then((res) => res.json()), ,])
@@ -35,6 +36,124 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	const dispatch = useDispatch()
 	const state = useSelector((state: any) => state.root)
 	const { t } = useTranslation('home')
+	const [urlQuery, setUrlQuery] = useState<any | null>(null)
+	const [movieId, setMovieId] = useState<any | null>(null)
+	const [movie, setMovie] = useState<any | null>(null)
+	const [open, setOpen] = useState<boolean>(false)
+	const [severity, setSeverity] = useState<string>('error')
+	const [msg, setMsg] = useState<string>('error')
+
+	const router = useRouter()
+	let arrOfObjects: any = {}
+	console.log(state)
+
+	const getMovieDataByTitleGenreYear = async (props: { year?: string; title?: string; genre?: any }) => {
+		if (!props?.year && !props?.title && !props?.genre) return
+		const response = await searchMovie({
+			year: props?.year,
+			title: props?.title,
+			genre: props?.genre?.length > 0 ? props?.genre : null,
+		})
+		if (!response) {
+			setMsg('no response')
+			setSeverity('error')
+			setOpen(true)
+			return
+		}
+
+		setMovie(response)
+		setDataFromFilters(response)
+		dispatch(setDataAction(response))
+	}
+
+	const getMovieDataByYear = async (props: { year?: string; genre?: any }) => {
+		if (!props?.year && !props?.genre) return
+		let ids: any = '&with_genres='
+		if (props?.genre?.length > 0) {
+			for (let item in props?.genre) {
+				ids += props?.genre[item] + ','
+			}
+		}
+		const response = await fetch(`${req.year}${ids !== '&with_genres=' ? ids : ''}&year=${props?.year}`).then((res) => res.json())
+		if (!response) {
+			setMsg('no response')
+			setSeverity('error')
+			setOpen(true)
+			return
+		}
+
+		setMovie(response)
+		setDataFromFilters(response)
+		dispatch(setDataAction(response))
+	}
+
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			let url = new URL(window.location.href)
+			const searchParams: any = new URLSearchParams(url.search)
+			for (const [key, value] of searchParams.entries()) {
+				arrOfObjects[key] = value
+			}
+		}
+		setUrlQuery(arrOfObjects)
+		const idA = arrOfObjects['id']
+		const titleA = arrOfObjects['title'] || null
+		const yearA = arrOfObjects['year']
+		const genreA = arrOfObjects['genre']?.split(',')
+		const genreFilters = props?.genre?.genres
+		console.log(genreA)
+		console.log(genreFilters)
+		const genreMatch =
+			genreFilters?.length > 0
+				? genreFilters?.filter((genre: any) => {
+						for (let item in genreA) {
+							return genre?.id.toString() === genreA[item].toString()
+						}
+				  })
+				: null
+
+		console.log('genreMatch')
+		console.log(genreMatch)
+
+		if (idA) {
+			setMovieId(idA)
+			setIdAction(idA)
+		}
+		if (titleA) {
+			setTitle(titleA)
+			dispatch(setTitleAction(titleA))
+		}
+		if (yearA) {
+			setYear(yearA)
+			dispatch(setYearAction(yearA))
+		}
+		console.log(arrOfObjects)
+		if (!titleA && arrOfObjects?.length > 0) {
+			setMsg(`query doesn't contain title`)
+			setSeverity('error')
+			setOpen(true)
+			return
+		}
+
+		if (!titleA && yearA) {
+			console.log('no year!!!!!!!!!!!!!!!!!!!!!')
+
+			getMovieDataByYear({
+				year: year,
+				genre: state?.root?.filtersSelected?.length > 0 ? state?.root?.filtersSelected : [],
+			})
+		}
+
+		if (!titleA) return
+		console.log('no titlk xxxxxxxxxxxxxxxxxxxxx')
+		getMovieDataByTitleGenreYear({
+			year: yearA,
+			title: titleA,
+			genre: null,
+		})
+
+		return () => {}
+	}, [])
 
 	useEffect(() => {
 		if (!state) return
@@ -47,16 +166,31 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	useEffect(() => {
 		setTopRatedArray(props?.topRated)
 		setShowChild(true)
-		if (!title) return
-		dispatch(setTitleAction(title))
+
 		return () => {}
 	}, [])
+
+	useEffect(() => {
+		if (title) {
+			dispatch(setTitleAction(title))
+		}
+		if (year) {
+			dispatch(setYearAction(year))
+		}
+
+		if (selectedFilters) {
+			dispatch(setFiltersAction(selectedFilters))
+		}
+
+		return () => {}
+	}, [title, year, selectedFilters])
 
 	if (!showChild) {
 		return null
 	}
 	return (
 		<div>
+			<SimpleNotification open={open} setOpen={setOpen} message={msg} severity={severity} time={10000} />
 			<Layout
 				genre={props?.genre}
 				sendData={(data) => {
@@ -80,17 +214,19 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 					{dataFromFilters && Array.isArray(dataFromFilters?.results) ? (
 						<div>
 							<div>Last Search: </div>
-							<section id='searched-year' className='flex float-left w-full overflow-x-scroll scroll-smooth mb-10'>
-								{dataFromFilters?.results?.length
-									? dataFromFilters?.results?.map((movieInfoData: any, index: number) => {
-											return (
-												<div key={movieInfoData?.id}>
-													<MovieThumbnailNotRated movieInfo={movieInfoData} />
-												</div>
-											)
-									  })
-									: 'No Movie Found'}
-							</section>
+							<div className='overflow-auto'>
+								<section id='searched-year' className='flex float-left w-full overflow-x-scroll scroll-smooth pb-20 mb-50'>
+									{dataFromFilters?.results?.length
+										? dataFromFilters?.results?.map((movieInfoData: any, index: number) => {
+												return (
+													<div key={movieInfoData?.id}>
+														<MovieThumbnailNotRated movieInfo={movieInfoData} />
+													</div>
+												)
+										  })
+										: 'No Movie Found'}
+								</section>
+							</div>
 						</div>
 					) : (
 						''

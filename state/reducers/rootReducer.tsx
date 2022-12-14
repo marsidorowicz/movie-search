@@ -5,6 +5,8 @@ const initState = {
 	title: '',
 	filtersSelected: {},
 	data: {},
+	year: '',
+	id: '',
 }
 
 export const rootReducer = (state = initState, action: any) => {
@@ -28,6 +30,17 @@ export const rootReducer = (state = initState, action: any) => {
 			return {
 				...state,
 				data: action.payload,
+			}
+		case 'SET_YEAR':
+			return {
+				...state,
+				year: action.payload,
+			}
+
+		case 'SET_ID':
+			return {
+				...state,
+				id: action.payload,
 			}
 
 		default:

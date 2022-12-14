@@ -10,9 +10,10 @@ import SearchIcon from '@mui/icons-material/Search'
 import CheckboxesFilters from '../atoms/CheckboxesFilters'
 import { UseLocalStorage } from '../../utilities/UseLocalStorage'
 import SimpleNotification from '../../utilities/SimpleNotifications'
-import req from '../../utilities/apiReqs'
+import req, { searchMovie } from '../../utilities/apiReqs'
 import { useDispatch, useSelector } from 'react-redux'
-import { setDataAction, setTitleAction } from '../../state/action-creators'
+import { setDataAction, setTitleAction, setYearAction } from '../../state/action-creators'
+import { useRouter } from 'next/router'
 
 export default function ServerSideModal(props: { genre: any; sendData: (data: any) => void }) {
 	const dispatch = useDispatch()
@@ -29,17 +30,11 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 
 	const [selectedFilters, setSelectedFilters] = UseLocalStorage('selectedFilters', '')
 	const state = useSelector((state: any) => state.root)
+	const router = useRouter()
 	let ids: string = ''
 	useEffect(() => {
 		setShowChild(true)
 	}, [])
-
-	useEffect(() => {
-		// if (!year) return
-		// getYear({
-		// 	year: year,
-		// })
-	}, [state])
 
 	useEffect(() => {
 		if (!dataFromFilters) return
@@ -49,9 +44,8 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 
 	if (!state) return
 
-	const getYear = async (props: { year: string; page?: number }) => {
-		ids += '&with_genres='
-		if (!props?.year) return
+	const searchMovieFunction = async () => {
+		let idsprefix = '&with_genres='
 
 		const idsFiltering = state?.root.filtersSelected?.length
 			? state?.root.filtersSelected?.map((filter: any) => {
@@ -67,12 +61,19 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			}
 		}
 
-		const res = await fetch(
-			req.year +
-				`&sort_by=popularity.desc&sort_by=vote_average.desc&primary_release_year=${props?.year}&page=${props?.page ? props?.page.toString() : '1'}${
-					idsFiltering?.length ? ids : ''
-				}`
-		).then((res) => res.json())
+		if (!title && year) {
+			const res = await fetch(req.year + '&year=' + year + idsprefix + ids + '&sort_by=popularity.desc').then((res) => res.json())
+			setDataFromFilters(res)
+			dispatch(setDataAction(res))
+			router.push(`/${year ? '?year=' + year : '&'} ${title ? '&title=' + title : ''} ${ids !== '' ? '&genre=' + ids : ''}`)
+			return
+		}
+
+		const res = await searchMovie({
+			year: year,
+			title: title,
+			genre: selectedFilters?.length > 0 ? selectedFilters : [],
+		})
 
 		if (!res) {
 			setMsg('no response')
@@ -82,28 +83,29 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 
 		setDataFromFilters(res)
 		dispatch(setDataAction(res))
+		router.push(`/${year ? '?year=' + year : '&'} ${title ? '&title=' + title : ''} ${ids !== '' ? '&genre=' + ids : ''}`)
 		onClose()
 	}
 
 	function search() {
-		if (!year || year < 4 || parseInt(year) < 1900) {
+		if ((year && year < 4) || (year && parseInt(year) < 1900)) {
 			setMsg('wrong year')
 			setSeverity('error')
 			setOpen(true)
-
 			return
 		}
-		getYear({
-			year: year,
-			page: 1,
-		})
-		if (year && !title) return
-		if (!title) {
-			setMsg('title required')
+
+		dispatch(setYearAction(year))
+		if (!title && year) {
+			searchMovieFunction()
+		} else if (!title && !year) {
+			setMsg('title or year is required required')
 			setSeverity('error')
 			setOpen(true)
 			return
 		}
+		searchMovieFunction()
+		onClose()
 	}
 
 	if (!showChild) {
@@ -159,6 +161,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 							<input
 								className='p-1'
 								placeholder='Title'
+								value={title}
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 									e.preventDefault()
 									const newValue = e.target.value
