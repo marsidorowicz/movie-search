@@ -22,13 +22,9 @@ export const searchMovie = async (props: { year?: string; title: string; genre?:
 		genreIds = props?.genre.map((item: any) => {
 			return item.id
 		})
-		console.log('genreIds')
-		console.log(genreIds)
 	}
 
 	const res = await fetch(`https://api.themoviedb.org/3/search/movie/?${query}&api_key=${API_KEY}`).then((res) => res.json())
-	console.log('res')
-	console.log(res)
 
 	if (!res?.results) return
 
@@ -36,9 +32,6 @@ export const searchMovie = async (props: { year?: string; title: string; genre?:
 		const genresFromResult = result?.genre_ids
 		return genreIds.some((i: any) => genresFromResult.includes(i))
 	})
-
-	console.log('resFiltered')
-	console.log(resFiltered)
 
 	return resFiltered
 }
