@@ -48,7 +48,7 @@ export const FetchSearchMovie = async (req: NextApiRequest, res: NextApiResponse
 	} catch (error) {
 		console.log(error)
 
-		res.status(400).json({ data: error })
+		res.status(301).json({ data: JSON.stringify(error) })
 	}
 
 	res.end()
