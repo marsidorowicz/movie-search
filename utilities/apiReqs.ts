@@ -33,6 +33,8 @@ export const searchMovie = async (props: { year?: string; title: string; genre?:
 		return genreIds.some((i: any) => genresFromResult.includes(i))
 	})
 
+	if (!resFiltered) return
+
 	return resFiltered
 }
 

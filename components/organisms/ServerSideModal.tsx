@@ -98,6 +98,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 		dispatch(setYearAction(year))
 		if (!title && year) {
 			searchMovieFunction()
+			return
 		} else if (!title && !year) {
 			setMsg('title or year is required required')
 			setSeverity('error')
