@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Layout from '../components/organisms/Layout'
-import req, { API_KEY, BASE_URL_TMDB, fetchMovieData } from '../utilities/apiReqs'
+import { fetchMovieData } from '../utilities/apiReqs'
 import SimpleNotification from '../utilities/SimpleNotifications'
 import ReactPlayer from 'react-player'
 import { base } from '../utilities/constants'
@@ -54,18 +54,18 @@ function Play() {
 			<SimpleNotification open={open} setOpen={setOpen} message={msg} severity={severity} time={10000} />
 			<Layout sendData={() => console.log()} genre={null}>
 				<div className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] font-bold'>PLAY</div>
-				<div className='flex  justify-center'>
-					<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' width={'auto'} height={'60%'} style={{ objectFit: 'cover' }} />
+				<div className='flex flex-wrap justify-center'>
+					<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' height={'90%'} style={{ objectFit: 'cover' }} />
 				</div>
 
 				<div>
 					<div className='relative p-2 '>
-						<h1 className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] font-bold min-h-[20px] sm:min-h-[50px] md:min-h-[70px] lg:sm:min-h-[100px] flex flex-wrap justify-center	'>
+						<h1 className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] font-bold flex flex-wrap justify-center	'>
 							{'Title: ' + movie?.title || 'No Title'}
 						</h1>
 						{movieUrl ? (
 							<div className='flex flex-wrap justify-center'>
-								<img src={movieUrl ? movieUrl : ''} className='p-1 bg-white border rounded max-w-[16rem] max-h-[15rem] ' alt={movie?.title || ''} />
+								<img src={movieUrl ? movieUrl : ''} className='p-1 bg-white border rounded max-w-[15rem] max-h-[15rem] ' alt={movie?.title || ''} />
 							</div>
 						) : (
 							<div className='p-1 bg-white border rounded max-w-[6rem] max-h-[10rem]'>No image</div>
@@ -73,7 +73,19 @@ function Play() {
 						<div className='p-2'>
 							<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] font-bold p-2'>{`Release Date: (${movie?.release_date || 'unknown'})`}</p>
 							<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>{'Vote Average: ' + movie?.vote_average}</p>
-							<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>{'Description: ' + movie?.overview}</p>
+							<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>{'Description: ' + movie?.overview || 'No description'}</p>
+							<div className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2 flex'>
+								Categories:
+								{movie?.genres?.map((genre: any, index: any) => {
+									return (
+										<p key={genre?.id} className='pl-1'>
+											{genre?.name}
+										</p>
+									)
+								})}
+							</div>
+							<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>{'For Adults: ' + movie?.adult || 'No data'}</p>
+							<p className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>{`Imdb ID:   ${movie?.imdb_id || 'No data'}`}</p>
 						</div>
 
 						<div>
