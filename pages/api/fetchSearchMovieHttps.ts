@@ -2,9 +2,12 @@
 
 import axios, { AxiosResponse } from 'axios'
 import { GetServerSideProps, NextApiRequest, NextApiResponse } from 'next'
+import dotenv from 'dotenv'
+dotenv.config()
 
-import { API_KEY } from '../../utilities/apiReqs'
+const base = process.env.BASE_URL_TMDB
 
+export const API_KEY = process.env.NEXT_PUBLIC_API_KEY_TMDB
 export const FetchSearchMovie = async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		const { year, title, genre } = req.body
@@ -28,7 +31,7 @@ export const FetchSearchMovie = async (req: NextApiRequest, res: NextApiResponse
 		}
 		if (!title) return
 
-		const response = await axios.get(`https://api.themoviedb.org/3/search/movie/?${query}&api_key=${API_KEY}`, {
+		const response = await axios.get(`${base}/search/movie/?${query}&api_key=${API_KEY}`, {
 			headers: { 'Content-Type': 'application/json' },
 			withCredentials: false,
 		})
