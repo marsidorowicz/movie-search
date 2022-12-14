@@ -14,6 +14,7 @@ import req, { searchMovie } from '../../utilities/apiReqs'
 import { useDispatch, useSelector } from 'react-redux'
 import { setDataAction, setTitleAction, setYearAction } from '../../state/action-creators'
 import { useRouter } from 'next/router'
+import axios from 'axios'
 
 export default function ServerSideModal(props: { genre: any; sendData: (data: any) => void }) {
 	const dispatch = useDispatch()
@@ -85,11 +86,18 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 		}
 		console.log('here')
 
-		const res = await searchMovie({
-			year: year,
-			title: title,
-			genre: selectedFilters?.length > 0 ? selectedFilters : [],
-		})
+		const res = await axios.post(
+			'/api/fetchSearchMovieHttps',
+			JSON.stringify({
+				year: year,
+				title: title,
+				genre: selectedFilters?.length > 0 ? selectedFilters : [],
+			}),
+			{
+				headers: { 'Content-Type': 'application/json' },
+				withCredentials: false,
+			}
+		)
 
 		if (!res) {
 			setMsg('no response')
