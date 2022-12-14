@@ -47,6 +47,7 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	let arrOfObjects: any = {}
 
 	console.log(state)
+	console.log(arrOfObjects)
 
 	const getMovieDataByTitleGenreYear = async (props: { year?: string; title?: string; genre?: any }) => {
 		if (!props?.year && !props?.title && !props?.genre) return
@@ -148,6 +149,8 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	}, [])
 
 	useEffect(() => {
+		console.log('state update')
+
 		if (!state) return
 		if (state?.root?.data?.length) {
 			setDataFromFilters(state?.root?.data)
@@ -180,6 +183,10 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	if (!showChild) {
 		return null
 	}
+
+	console.log('dataFromFilters')
+	console.log(dataFromFilters)
+
 	return (
 		<div>
 			<SimpleNotification open={open} setOpen={setOpen} message={msg} severity={severity} time={10000} />

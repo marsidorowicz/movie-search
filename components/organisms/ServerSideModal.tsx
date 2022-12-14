@@ -77,9 +77,10 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			setDataFromFilters(res)
 			dispatch(setDataAction(res))
 			onClose()
-			router.push(`/${year ? '?year=' + year : '&'} ${title ? '&title=' + title : ''} ${ids !== '&with_genres=' ? ids : ''}`)
+			router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : '?'} ${ids !== '&with_genres=' ? ids : '?'}`)
 			return
 		}
+		console.log('here')
 
 		const res = await searchMovie({
 			year: year,
@@ -96,7 +97,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 
 		setDataFromFilters(res)
 		dispatch(setDataAction(res))
-		router.push(`/${year ? '?year=' + year : '&'} ${title ? '&title=' + title : ''} ${ids !== '&with_genres=' ? ids : ''}`)
+		router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : '?'} ${ids !== '&with_genres=' ? ids : '?'}`)
 		onClose()
 	}
 

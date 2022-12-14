@@ -25,15 +25,21 @@ export const searchMovie = async (props: { year?: string; title: string; genre?:
 	}
 
 	const res = await fetch(`https://api.themoviedb.org/3/search/movie/?${query}&api_key=${API_KEY}`).then((res) => res.json())
+	console.log('res here')
+	console.log(res)
 
 	if (!res?.results) return
 
-	const resFiltered = res?.results?.filter((result: any) => {
-		const genresFromResult = result?.genre_ids
-		return genreIds.some((i: any) => genresFromResult.includes(i))
-	})
+	const resFiltered = {
+		results: res?.results?.filter((result: any) => {
+			const genresFromResult = result?.genre_ids
+			return genreIds.some((i: any) => genresFromResult.includes(i))
+		}),
+	}
+	console.log('resFiltered here')
+	console.log(resFiltered)
 
-	return resFiltered?.length > 0 ? resFiltered : res
+	return resFiltered?.results.length > 0 ? resFiltered : res
 }
 
 const req = {
