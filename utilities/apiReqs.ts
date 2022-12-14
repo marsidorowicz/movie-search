@@ -40,7 +40,7 @@ export const searchMovie = async (props: { year?: string; title: string; genre?:
 	console.log('resFiltered')
 	console.log(resFiltered)
 
-	return res
+	return resFiltered
 }
 
 const req = {
