@@ -37,6 +37,13 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	}, [])
 
 	useEffect(() => {
+		// if (!year) return
+		// getYear({
+		// 	year: year,
+		// })
+	}, [state])
+
+	useEffect(() => {
 		if (!dataFromFilters) return
 		props?.sendData(dataFromFilters)
 		return () => {}
@@ -45,28 +52,31 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	if (!state) return
 
 	const searchMovieFunction = async () => {
-		let idsprefix = '&with_genres='
-		ids += ''
+		ids += '&with_genres='
 
 		const idsFiltering = state?.root.filtersSelected?.length
 			? state?.root.filtersSelected?.map((filter: any) => {
 					return filter?.id
 			  })
-			: selectedFilters?.map((filter: any) => {
+			: selectedFilters?.length > 0
+			? selectedFilters?.map((filter: any) => {
 					return filter?.id
 			  })
+			: []
 
 		if (idsFiltering?.length > 0) {
 			for (let item in idsFiltering) {
 				ids += idsFiltering[item] + ','
 			}
 		}
-
 		if (!title && year) {
-			const res = await fetch(req.year + '&year=' + year + idsprefix + ids + '&sort_by=popularity.desc').then((res) => res.json())
+			const res = await fetch(req.year + '&year=' + year + ids).then((res) => res.json())
+			console.log('res*****************************************')
+			console.log(res)
+
 			setDataFromFilters(res)
 			dispatch(setDataAction(res))
-			router.push(`/${year ? '?year=' + year : '&'} ${title ? '&title=' + title : ''} ${ids !== '' ? '&genre=' + ids : ''}`)
+			onClose()
 			return
 		}
 
@@ -95,6 +105,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			return
 		}
 
+		// router.push(`?year=${year}`)
 		dispatch(setYearAction(year))
 		if (!title && year) {
 			searchMovieFunction()
@@ -105,7 +116,6 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			return
 		}
 		searchMovieFunction()
-		onClose()
 	}
 
 	if (!showChild) {

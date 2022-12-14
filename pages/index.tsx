@@ -46,6 +46,8 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	const router = useRouter()
 	let arrOfObjects: any = {}
 
+	console.log(state)
+
 	const getMovieDataByTitleGenreYear = async (props: { year?: string; title?: string; genre?: any }) => {
 		if (!props?.year && !props?.title && !props?.genre) return
 		const response = await searchMovie({

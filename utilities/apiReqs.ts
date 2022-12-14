@@ -9,6 +9,8 @@ export const fetchMovieData = async (id: string) => {
 }
 
 export const searchMovie = async (props: { year?: string; title: string; genre?: any }) => {
+	console.log('searchMovie')
+
 	let query: string = ''
 
 	let genreIds: any = []
@@ -33,7 +35,10 @@ export const searchMovie = async (props: { year?: string; title: string; genre?:
 		return genreIds.some((i: any) => genresFromResult.includes(i))
 	})
 
-	return resFiltered
+	console.log('resFiltered')
+	console.log(resFiltered)
+
+	return resFiltered?.length > 0 ? resFiltered : res
 }
 
 const req = {
