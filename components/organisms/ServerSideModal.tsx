@@ -46,12 +46,15 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 
 	const searchMovieFunction = async () => {
 		let idsprefix = '&with_genres='
+		ids += ''
 
 		const idsFiltering = state?.root.filtersSelected?.length
 			? state?.root.filtersSelected?.map((filter: any) => {
 					return filter?.id
 			  })
-			: []
+			: selectedFilters?.map((filter: any) => {
+					return filter?.id
+			  })
 
 		if (idsFiltering?.length > 0) {
 			for (let item in idsFiltering) {
@@ -60,9 +63,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 		}
 
 		if (!title && year) {
-			const res = await fetch('https://api.themoviedb.org/3/search/movie/?' + '&year=' + year + idsprefix + ids + '&sort_by=popularity.desc').then((res) =>
-				res.json()
-			)
+			const res = await fetch(req.year + '&year=' + year + idsprefix + ids + '&sort_by=popularity.desc').then((res) => res.json())
 			setDataFromFilters(res)
 			dispatch(setDataAction(res))
 			router.push(`/${year ? '?year=' + year : '&'} ${title ? '&title=' + title : ''} ${ids !== '' ? '&genre=' + ids : ''}`)
@@ -83,7 +84,6 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 
 		setDataFromFilters(res)
 		dispatch(setDataAction(res))
-		router.push(`/${year ? '?year=' + year : '&'} ${title ? '&title=' + title : ''} ${ids !== '' ? '&genre=' + ids : ''}`)
 		onClose()
 	}
 
@@ -98,7 +98,6 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 		dispatch(setYearAction(year))
 		if (!title && year) {
 			searchMovieFunction()
-			return
 		} else if (!title && !year) {
 			setMsg('title or year is required required')
 			setSeverity('error')

@@ -45,7 +45,6 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 
 	const router = useRouter()
 	let arrOfObjects: any = {}
-	console.log(state)
 
 	const getMovieDataByTitleGenreYear = async (props: { year?: string; title?: string; genre?: any }) => {
 		if (!props?.year && !props?.title && !props?.genre) return
@@ -101,8 +100,6 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 		const yearA = arrOfObjects['year']
 		const genreA = arrOfObjects['genre']?.split(',')
 		const genreFilters = props?.genre?.genres
-		console.log(genreA)
-		console.log(genreFilters)
 		const genreMatch =
 			genreFilters?.length > 0
 				? genreFilters?.filter((genre: any) => {
@@ -111,9 +108,6 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 						}
 				  })
 				: null
-
-		console.log('genreMatch')
-		console.log(genreMatch)
 
 		if (idA) {
 			setMovieId(idA)
@@ -127,7 +121,6 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 			setYear(yearA)
 			dispatch(setYearAction(yearA))
 		}
-		console.log(arrOfObjects)
 		if (!titleA && arrOfObjects?.length > 0) {
 			setMsg(`query doesn't contain title`)
 			setSeverity('error')
@@ -136,8 +129,6 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 		}
 
 		if (!titleA && yearA) {
-			console.log('no year!!!!!!!!!!!!!!!!!!!!!')
-
 			getMovieDataByYear({
 				year: year,
 				genre: state?.root?.filtersSelected?.length > 0 ? state?.root?.filtersSelected : [],
@@ -145,7 +136,6 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 		}
 
 		if (!titleA) return
-		console.log('no titlk xxxxxxxxxxxxxxxxxxxxx')
 		getMovieDataByTitleGenreYear({
 			year: yearA,
 			title: titleA,
