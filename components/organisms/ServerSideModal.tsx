@@ -52,7 +52,8 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	if (!state) return
 
 	const searchMovieFunction = async () => {
-		ids += '&with_genres='
+		let idPref = '&with_genres='
+		ids = ''
 
 		const idsFiltering = state?.root.filtersSelected?.length
 			? state?.root.filtersSelected?.map((filter: any) => {
@@ -70,14 +71,15 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			}
 		}
 		if (!title && year) {
-			const res = await fetch(req.year + '&year=' + year + ids).then((res) => res.json())
+			const res = await fetch(req.year + '&year=' + year + idPref + ids).then((res) => res.json())
 			console.log('res*****************************************')
 			console.log(res)
 
 			setDataFromFilters(res)
 			dispatch(setDataAction(res))
 			onClose()
-			router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : '?'} ${ids !== '&with_genres=' ? ids : '?'}`)
+			if (!year && !title) return
+			router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genres=' + ids : ''}`)
 			return
 		}
 		console.log('here')
@@ -97,8 +99,10 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 
 		setDataFromFilters(res)
 		dispatch(setDataAction(res))
-		router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : '?'} ${ids !== '&with_genres=' ? ids : '?'}`)
+
 		onClose()
+		if (!year && !title) return
+		router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genres=' + ids : ''}`)
 	}
 
 	function search() {
@@ -187,6 +191,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 						</Typography>
 						<Typography sx={{ pt: 2 }} className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] p-2'>
 							<input
+								id='yearInput'
 								className='p-1'
 								placeholder='Year after 1900'
 								type={'number'}
