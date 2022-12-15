@@ -1,8 +1,8 @@
 /** @format */
 
 import { useEffect, useState } from 'react'
-import Layout from '../components/organisms/Layout'
-import MainPoster from '../components/atoms/MainPoster'
+import Layout from '../components/templates/Layout'
+import MainPoster from '../components/molecules/MainPoster'
 import Home from '../components/organisms/Home'
 import req, { searchMovie } from '../utilities/apiReqs'
 import MovieThumbnail from '../components/atoms/MovieThumbnail'
@@ -15,6 +15,8 @@ import { setDataAction, setFiltersAction, setIdAction, setTitleAction, setYearAc
 import { fetchMovieData } from '../utilities/apiReqs'
 import SimpleNotification from '../utilities/SimpleNotifications'
 import { GetServerSideProps } from 'next'
+import RatedRow from '../components/molecules/RatedRow'
+import SearchRow from '../components/molecules/SearchRow'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const [topRated, genre] = await Promise.all([fetch(req.topRated).then((res) => res.json()), fetch(req.genreList).then((res) => res.json()), ,])
@@ -120,40 +122,9 @@ export default function HomePage(props: { topRated: any; genre: any; query: any 
 			<SimpleNotification open={open} setOpen={setOpen} message={msg} severity={severity} time={10000} />
 			<Layout genre={props?.genre}>
 				<Home>
-					<MainPoster data={props?.topRated} />
-					<section id='top-rated' className='flex float-left w-full overflow-x-scroll scroll-smooth'>
-						{topRatedArray?.length
-							? topRatedArray.map((movieInfoData: any, index: number) => {
-									if (index === 0 || index > 7) return
-									return (
-										<div key={movieInfoData?.id}>
-											<MovieThumbnail movieInfo={movieInfoData} rating={index} />
-										</div>
-									)
-							  })
-							: 'No Movie Found'}
-					</section>
-
-					{dataFromFilters && Array.isArray(dataFromFilters?.results) ? (
-						<div>
-							<div>Last Search: </div>
-							<div className='overflow-auto'>
-								<section id='searched-year' className='flex float-left w-full overflow-x-scroll scroll-smooth pb-20 mb-50'>
-									{dataFromFilters?.results?.length
-										? dataFromFilters?.results?.map((movieInfoData: any, index: number) => {
-												return (
-													<div key={movieInfoData?.id}>
-														<MovieThumbnailNotRated movieInfo={movieInfoData} />
-													</div>
-												)
-										  })
-										: 'No Movie Found'}
-								</section>
-							</div>
-						</div>
-					) : (
-						''
-					)}
+					<MainPoster data={props?.topRated} router={router} />
+					<RatedRow data={topRatedArray} />
+					<SearchRow data={dataFromFilters} />
 				</Home>
 			</Layout>
 		</div>

@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useEffect, useState } from 'react'
-import Layout from '../components/organisms/Layout'
+import Layout from '../components/templates/Layout'
 import { fetchMovieData } from '../utilities/apiReqs'
 import SimpleNotification from '../utilities/SimpleNotifications'
 import ReactPlayer from 'react-player'
