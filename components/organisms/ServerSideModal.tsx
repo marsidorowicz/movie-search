@@ -17,7 +17,7 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import { GetServerSideProps } from 'next'
 
-export default function ServerSideModal(props: { genre: any; sendData: (data: any) => void; results: any }) {
+export default function ServerSideModal(props: { genre: any; results: any }) {
 	const dispatch = useDispatch()
 	const [showChild, setShowChild] = useState(false)
 	const rootRef = useRef<HTMLDivElement>(null)
@@ -50,11 +50,11 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 		return () => {}
 	}, [state?.root?.filtersSelected])
 
-	useEffect(() => {
-		if (!dataFromFilters) return
-		props?.sendData(dataFromFilters)
-		return () => {}
-	}, [dataFromFilters])
+	// useEffect(() => {
+	// 	if (!dataFromFilters) return
+	// 	props?.sendData(dataFromFilters)
+	// 	return () => {}
+	// }, [dataFromFilters])
 
 	if (!state) return
 

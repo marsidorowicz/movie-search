@@ -109,6 +109,13 @@ export default function HomePage(props: { topRated: any; genre: any; query: any 
 		dispatch(setDataAction(response))
 	}
 
+	useEffect(() => {
+		if (!props?.query?.results?.length) return
+		setDataFromFilters(props?.query)
+		dispatch(setDataAction(props?.query))
+		return () => {}
+	}, [props?.query])
+
 	const getMovieDataByYear = async (props: { year?: string; genre?: any }) => {
 		if (!props?.year && !props?.genre) return
 		let ids: any = '&with_genres='
@@ -181,12 +188,12 @@ export default function HomePage(props: { topRated: any; genre: any; query: any 
 			return
 		}
 
-		if (!titleA && yearA) {
-			getMovieDataByYear({
-				year: yearA,
-				genre: idsFiltering?.length > 0 ? idsFiltering : [],
-			})
-		}
+		// if (!titleA && yearA) {
+		// 	getMovieDataByYear({
+		// 		year: yearA,
+		// 		genre: idsFiltering?.length > 0 ? idsFiltering : [],
+		// 	})
+		// }
 
 		if (!titleA) return
 		getMovieDataByTitleGenreYear({
@@ -235,11 +242,7 @@ export default function HomePage(props: { topRated: any; genre: any; query: any 
 	return (
 		<div>
 			<SimpleNotification open={open} setOpen={setOpen} message={msg} severity={severity} time={10000} />
-			<Layout
-				genre={props?.genre}
-				sendData={(data) => {
-					setDataFromFilters(data)
-				}}>
+			<Layout genre={props?.genre}>
 				<Home>
 					<MainPoster data={props?.topRated} />
 					<section id='top-rated' className='flex float-left w-full overflow-x-scroll scroll-smooth'>
