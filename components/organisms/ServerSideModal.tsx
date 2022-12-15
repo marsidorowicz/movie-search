@@ -77,20 +77,17 @@ export default function ServerSideModal(props: { genre: any }) {
 		if (!title && year) {
 			try {
 				const res = await fetch(req.year + '&year=' + year + idPref + ids).then((res) => res.json())
-				console.log('res*****************************************')
-				console.log(res)
 
 				setDataFromFilters(res)
 				dispatch(setDataAction(res))
 				onClose()
 				if (!year && !title) return
-				// router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genres=' + ids : ''}`)
+				router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genre=' + ids : ''}`)
 				return
 			} catch (error) {
 				console.log(error)
 			}
 		}
-		console.log('here')
 		try {
 			const res = await axios.post(
 				'/api/fetchSearchMovieHttps',
@@ -104,9 +101,6 @@ export default function ServerSideModal(props: { genre: any }) {
 					withCredentials: false,
 				}
 			)
-			console.log('res1111111111111111111111111111111111')
-			console.log(res)
-			console.log(selectedFilters)
 
 			if (!res) {
 				setMsg('no response')
@@ -120,7 +114,7 @@ export default function ServerSideModal(props: { genre: any }) {
 
 			onClose()
 			if (!year && !title) return
-			// router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genres=' + ids : ''}`)
+			router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genre=' + ids : ''}`)
 		} catch (error) {
 			console.log(error)
 		}

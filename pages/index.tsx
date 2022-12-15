@@ -22,8 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const genreQuery: any = context.query.genre
 	const yearQuery: any = context.query.year
 	const isWithQuery: boolean = (genresArray.length > 0 && genreQuery) || (genresArray.length > 0 && yearQuery) ? true : false
-	console.log('genre')
-	console.log(yearQuery)
+
 	const genreMatch =
 		isWithQuery && genresArray?.length > 0
 			? genresArray?.filter((genre: any) => {
@@ -44,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	const response = await fetch(req.year + ids + '&year=' + `${yearQuery ? yearQuery : ''} `).then((res) => res.json())
-	console.log(response)
+
 	for (let item in response?.results) {
 	}
 
@@ -57,17 +56,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 }
 
-// export async function getServerSideProps(context: any) {
-// 	const [topRated, genre] = await Promise.all([fetch(req.topRated).then((res) => res.json()), fetch(req.genreList).then((res) => res.json()), ,])
-
-// 	return {
-// 		props: {
-// 			topRated: topRated.results,
-// 			genre: genre,
-// 		}, // will be passed to the page component as props
-// 	}
-// }
-
 export default function HomePage(props: { topRated: any; genre: any; query: any }) {
 	const [showChild, setShowChild] = useState(false)
 	const [topRatedArray, setTopRatedArray] = useState<[]>()
@@ -78,37 +66,11 @@ export default function HomePage(props: { topRated: any; genre: any; query: any 
 	const dispatch = useDispatch()
 	const state = useSelector((state: any) => state.root)
 	const { t } = useTranslation('home')
-	const [urlQuery, setUrlQuery] = useState<any | null>(null)
-	const [movieId, setMovieId] = useState<any | null>(null)
-	const [movie, setMovie] = useState<any | null>(null)
 	const [open, setOpen] = useState<boolean>(false)
 	const [severity, setSeverity] = useState<string>('error')
 	const [msg, setMsg] = useState<string>('error')
 
 	const router = useRouter()
-	let arrOfObjects: any = {}
-
-	console.log('props?.query11111111111111111111111111111')
-	console.log(props?.query)
-
-	const getMovieDataByTitleGenreYear = async (props: { year?: string; title?: string; genre?: any }) => {
-		if (!props?.year && !props?.title && !props?.genre) return
-		const response = await searchMovie({
-			year: props?.year,
-			title: props?.title,
-			genre: props?.genre?.length > 0 ? props?.genre : null,
-		})
-		if (!response) {
-			setMsg('no response')
-			setSeverity('error')
-			setOpen(true)
-			return
-		}
-
-		setMovie(response)
-		setDataFromFilters(response)
-		dispatch(setDataAction(response))
-	}
 
 	useEffect(() => {
 		if (!props?.query?.results?.length) return
