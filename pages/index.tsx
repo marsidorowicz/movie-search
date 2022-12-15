@@ -14,19 +14,60 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setDataAction, setFiltersAction, setIdAction, setTitleAction, setYearAction } from '../state/action-creators'
 import { fetchMovieData } from '../utilities/apiReqs'
 import SimpleNotification from '../utilities/SimpleNotifications'
+import { GetServerSideProps } from 'next'
 
-export async function getServerSideProps(context: any) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
 	const [topRated, genre] = await Promise.all([fetch(req.topRated).then((res) => res.json()), fetch(req.genreList).then((res) => res.json()), ,])
+	const genresArray = genre?.genres
+	const genreQuery: any = context.query.genre
+	const yearQuery: any = context.query.year
+	console.log('genre')
+	console.log(yearQuery)
+	const genreMatch =
+		genresArray?.length > 0
+			? genresArray?.filter((genre: any) => {
+					for (let item in genreQuery.split(',')) {
+						if (genre?.id.toString() === genreQuery.split(',')[item].toString()) {
+							return genre
+						}
+					}
+			  })
+			: null
+
+	let ids: any = '&with_genres='
+	if (genreMatch.length > 0) {
+		for (let i = 0; i < genreMatch.length; i++) {
+			if (i === genreMatch.length) return
+			ids += genreMatch[i].id + ','
+		}
+	}
+
+	const response = await fetch(req.year + ids + '&year=' + `${yearQuery ? yearQuery : ''} `).then((res) => res.json())
+	console.log(response)
+	for (let item in response?.results) {
+	}
 
 	return {
 		props: {
 			topRated: topRated.results,
 			genre: genre,
-		}, // will be passed to the page component as props
+			query: response,
+		},
 	}
 }
 
-export default function HomePage(props: { topRated: any; genre: any }) {
+// export async function getServerSideProps(context: any) {
+// 	const [topRated, genre] = await Promise.all([fetch(req.topRated).then((res) => res.json()), fetch(req.genreList).then((res) => res.json()), ,])
+
+// 	return {
+// 		props: {
+// 			topRated: topRated.results,
+// 			genre: genre,
+// 		}, // will be passed to the page component as props
+// 	}
+// }
+
+export default function HomePage(props: { topRated: any; genre: any; query: any }) {
 	const [showChild, setShowChild] = useState(false)
 	const [topRatedArray, setTopRatedArray] = useState<[]>()
 	const [dataFromFilters, setDataFromFilters] = UseLocalStorage('dataFromFilters', '')
@@ -45,6 +86,9 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 
 	const router = useRouter()
 	let arrOfObjects: any = {}
+
+	console.log('props?.query11111111111111111111111111111')
+	console.log(props?.query)
 
 	const getMovieDataByTitleGenreYear = async (props: { year?: string; title?: string; genre?: any }) => {
 		if (!props?.year && !props?.title && !props?.genre) return
