@@ -114,7 +114,7 @@ export default function HomePage(props: { topRated: any; genre: any; query: any 
 		setDataFromFilters(props?.query)
 		dispatch(setDataAction(props?.query))
 		return () => {}
-	}, [props?.query])
+	}, [props])
 
 	const getMovieDataByYear = async (props: { year?: string; genre?: any }) => {
 		if (!props?.year && !props?.genre) return
