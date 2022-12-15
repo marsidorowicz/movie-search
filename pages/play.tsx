@@ -49,7 +49,7 @@ function Play() {
 	return (
 		<div>
 			<SimpleNotification open={open} setOpen={setOpen} message={msg} severity={severity} time={10000} />
-			<Layout sendData={() => console.log()} genre={null}>
+			<Layout genre={null}>
 				<div className='text-[6px] sm:text-[10px] md:text-[15px] lg:text-[15px] font-bold'>PLAY</div>
 				<div className='flex flex-wrap justify-center'>
 					<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' height={'90%'} style={{ objectFit: 'cover' }} />
