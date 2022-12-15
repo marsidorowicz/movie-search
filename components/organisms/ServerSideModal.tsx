@@ -15,8 +15,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setDataAction, setTitleAction, setYearAction } from '../../state/action-creators'
 import { useRouter } from 'next/router'
 import axios from 'axios'
+import { GetServerSideProps } from 'next'
 
-export default function ServerSideModal(props: { genre: any; sendData: (data: any) => void }) {
+export default function ServerSideModal(props: { genre: any; sendData: (data: any) => void; results: any }) {
 	const dispatch = useDispatch()
 	const [showChild, setShowChild] = useState(false)
 	const rootRef = useRef<HTMLDivElement>(null)
@@ -33,34 +34,13 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	const state = useSelector((state: any) => state.root)
 	const router = useRouter()
 	let ids: string = ''
-	console.log(state)
-
-	const getMovieDataByYear = async (props: { year?: string; genre?: any }) => {
-		if (!props?.year && !props?.genre) return
-		let ids: any = '&with_genres='
-		if (props?.genre?.length > 0) {
-			for (let item in props?.genre) {
-				ids += props?.genre[item] + ','
-			}
-		}
-		const response = await fetch(`${req.year}${ids !== '&with_genres=' ? ids : ''}&year=${props?.year}`).then((res) => res.json())
-		console.log(response)
-
-		if (!response) {
-			setMsg('no response')
-			setSeverity('error')
-			setOpen(true)
-			return
-		}
-
-		setDataFromFilters(response)
-		dispatch(setDataAction(response))
-	}
-
 	useEffect(() => {
 		setYear('')
 		setShowChild(true)
 	}, [])
+	console.log(state)
+	console.log('props?.results')
+	console.log(props?.results)
 
 	useEffect(() => {
 		if (!state) return
@@ -99,12 +79,12 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 		}
 		if (!title && year) {
 			try {
-				getMovieDataByYear({
-					year: year,
-					genre: idsFiltering,
-				})
-				// const res = await fetch(req.year + '&year=' + year + idPref + ids).then((res) => res.json())
+				const res = await fetch(req.year + '&year=' + year + idPref + ids).then((res) => res.json())
+				console.log('res*****************************************')
+				console.log(res)
 
+				setDataFromFilters(res)
+				dispatch(setDataAction(res))
 				onClose()
 				if (!year && !title) return
 				router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genres=' + ids : ''}`)
@@ -113,7 +93,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 				console.log(error)
 			}
 		}
-
+		console.log('here')
 		try {
 			const res = await axios.post(
 				'/api/fetchSearchMovieHttps',
@@ -127,6 +107,9 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 					withCredentials: false,
 				}
 			)
+			console.log('res1111111111111111111111111111111111')
+			console.log(res)
+			console.log(selectedFilters)
 
 			if (!res) {
 				setMsg('no response')
@@ -134,8 +117,6 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 				setOpen(true)
 				return
 			}
-			console.log('res')
-			console.log(res)
 
 			setDataFromFilters(res?.data)
 			dispatch(setDataAction(res?.data))
