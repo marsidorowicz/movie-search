@@ -30,23 +30,16 @@ export const FetchSearchMovie = async (req: NextApiRequest, res: NextApiResponse
 		if (!title) return
 
 		const response: any = await fetch(`${BASE_URL_TMDB}/search/movie/?${query}&api_key=${API_KEY}`).then((response) => response.json())
-		// console.log(response)
-		// console.log(response?.results)
 
 		if (!response) return
 
 		const resFiltered = response?.results.filter((result: any) => {
 			const genresFromResult = result?.genre_ids
-			console.log(genresFromResult)
-			console.log(genreIds.some((i: any) => genresFromResult.includes(i)))
 
 			if (genreIds.some((i: any) => genresFromResult.includes(i))) {
 				return result
 			}
 		})
-		// console.log('resFiltered')
-		// console.log(resFiltered)
-		console.log(resFiltered?.length)
 
 		return res.status(200).json({ results: resFiltered?.length > 0 ? resFiltered : response })
 	} catch (error) {

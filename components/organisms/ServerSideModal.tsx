@@ -132,8 +132,8 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 				return
 			}
 
-			setDataFromFilters(res?.data)
-			dispatch(setDataAction(res?.data))
+			setDataFromFilters(res)
+			dispatch(setDataAction(res))
 
 			onClose()
 			if (!year && !title) return
