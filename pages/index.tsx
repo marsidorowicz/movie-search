@@ -21,10 +21,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const genresArray = genre?.genres
 	const genreQuery: any = context.query.genre
 	const yearQuery: any = context.query.year
+	const isWithQuery: boolean = (genresArray.length > 0 && genreQuery) || (genresArray.length > 0 && yearQuery) ? true : false
 	console.log('genre')
 	console.log(yearQuery)
 	const genreMatch =
-		genresArray?.length > 0
+		isWithQuery && genresArray?.length > 0
 			? genresArray?.filter((genre: any) => {
 					for (let item in genreQuery.split(',')) {
 						if (genre?.id.toString() === genreQuery.split(',')[item].toString()) {
@@ -35,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			: null
 
 	let ids: any = '&with_genres='
-	if (genreMatch.length > 0) {
+	if (isWithQuery && genreMatch.length > 0) {
 		for (let i = 0; i < genreMatch.length; i++) {
 			if (i === genreMatch.length) return
 			ids += genreMatch[i].id + ','
@@ -117,95 +118,6 @@ export default function HomePage(props: { topRated: any; genre: any; query: any 
 		}
 		return () => {}
 	}, [props])
-
-	const getMovieDataByYear = async (props: { year?: string; genre?: any }) => {
-		if (!props?.year && !props?.genre) return
-		let ids: any = '&with_genres='
-		if (props?.genre?.length > 0) {
-			for (let item in props?.genre) {
-				ids += props?.genre[item] + ','
-			}
-		}
-
-		const response = await fetch(`${req.year}${ids !== '&with_genres=' ? ids : ''}&year=${props?.year}`).then((res) => res.json())
-		if (!response) {
-			setMsg('no response')
-			setSeverity('error')
-			setOpen(true)
-			return
-		}
-
-		setDataFromFilters(response)
-		dispatch(setDataAction(response))
-	}
-
-	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			let url = new URL(window.location.href)
-			const searchParams: any = new URLSearchParams(url.search)
-			for (const [key, value] of searchParams.entries()) {
-				arrOfObjects[key] = value
-			}
-		}
-		setUrlQuery(arrOfObjects)
-		const idA = arrOfObjects['id']
-		const titleA = arrOfObjects['title'] || null
-		const yearA = arrOfObjects['year']
-		const genreA = arrOfObjects['genres']?.split(',')
-		const genreFilters = props?.genre?.genres
-		const idsFiltering = state?.root.filtersSelected?.length
-			? state?.root.filtersSelected?.map((filter: any) => {
-					return filter?.id
-			  })
-			: selectedFilters?.length > 0
-			? selectedFilters?.map((filter: any) => {
-					return filter?.id
-			  })
-			: []
-		const genreMatch =
-			genreFilters?.length > 0
-				? genreFilters?.filter((genre: any) => {
-						for (let item in genreA) {
-							return genre?.id.toString() === genreA[item].toString()
-						}
-				  })
-				: null
-
-		if (idA) {
-			setMovieId(idA)
-			setIdAction(idA)
-		}
-		if (titleA) {
-			setTitle(titleA)
-			dispatch(setTitleAction(titleA))
-		}
-		if (yearA) {
-			setYear(yearA)
-			dispatch(setYearAction(yearA))
-		}
-		if (!titleA && arrOfObjects?.length > 0) {
-			setMsg(`query doesn't contain title`)
-			setSeverity('error')
-			setOpen(true)
-			return
-		}
-
-		// if (!titleA && yearA) {
-		// 	getMovieDataByYear({
-		// 		year: yearA,
-		// 		genre: idsFiltering?.length > 0 ? idsFiltering : [],
-		// 	})
-		// }
-
-		if (!titleA) return
-		getMovieDataByTitleGenreYear({
-			year: yearA,
-			title: titleA,
-			genre: null,
-		})
-
-		return () => {}
-	}, [])
 
 	useEffect(() => {
 		if (!state) return
