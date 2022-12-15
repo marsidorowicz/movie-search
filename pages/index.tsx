@@ -66,21 +66,13 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	}
 
 	const getMovieDataByYear = async (props: { year?: string; genre?: any }) => {
-		console.log('props?.genre')
-		console.log(props?.genre)
-		console.log(props?.year)
-
 		if (!props?.year && !props?.genre) return
 		let ids: any = '&with_genres='
 		if (props?.genre?.length > 0) {
 			for (let item in props?.genre) {
-				console.log(item, props?.genre[item])
-
 				ids += props?.genre[item] + ','
 			}
 		}
-		console.log('ids')
-		console.log(ids)
 
 		const response = await fetch(`${req.year}${ids !== '&with_genres=' ? ids : ''}&year=${props?.year}`).then((res) => res.json())
 		if (!response) {
@@ -125,12 +117,6 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 						}
 				  })
 				: null
-		console.log(arrOfObjects)
-		console.log(yearA)
-		console.log(year)
-		console.log(genreMatch)
-		console.log(genreFilters)
-		console.log(genreA)
 
 		if (idA) {
 			setMovieId(idA)
@@ -169,9 +155,6 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	}, [])
 
 	useEffect(() => {
-		console.log('state update')
-		console.log(dataFromFilters)
-
 		if (!state) return
 		if (state?.root?.data?.results?.length) {
 			setDataFromFilters(state?.root?.data)

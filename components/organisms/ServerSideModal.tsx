@@ -35,10 +35,6 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	let ids: string = ''
 
 	const getMovieDataByYear = async (props: { year?: string; genre?: any }) => {
-		console.log('props?.genre')
-		console.log(props?.genre)
-		console.log(props?.year)
-
 		if (!props?.year && !props?.genre) return
 		let ids: any = '&with_genres='
 		if (props?.genre?.length > 0) {
@@ -62,7 +58,6 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 		setYear('')
 		setShowChild(true)
 	}, [])
-	console.log(state)
 
 	useEffect(() => {
 		if (!state) return
@@ -100,9 +95,6 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			}
 		}
 		if (!title && year) {
-			console.log('year')
-			console.log(year)
-
 			try {
 				getMovieDataByYear({
 					year: year,
@@ -118,7 +110,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 				console.log(error)
 			}
 		}
-		console.log('here')
+
 		try {
 			const res = await axios.post(
 				'/api/fetchSearchMovieHttps',
@@ -132,9 +124,6 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 					withCredentials: false,
 				}
 			)
-			console.log('res1111111111111111111111111111111111')
-			console.log(res)
-			console.log(selectedFilters)
 
 			if (!res) {
 				setMsg('no response')
