@@ -111,8 +111,10 @@ export default function HomePage(props: { topRated: any; genre: any; query: any 
 
 	useEffect(() => {
 		if (!props?.query?.results?.length) return
-		setDataFromFilters(props?.query)
-		dispatch(setDataAction(props?.query))
+		if (props?.query?.results?.length > 0) {
+			setDataFromFilters(props?.query)
+			dispatch(setDataAction(props?.query))
+		}
 		return () => {}
 	}, [props])
 
