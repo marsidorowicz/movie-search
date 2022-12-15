@@ -6,7 +6,7 @@ import ServerSideModal from '../organisms/ServerSideModal'
 import { useRouter } from 'next/router'
 import HomeIcon from '@mui/icons-material/Home'
 
-function Header(props: { genre: any[]}) {
+function Header(props: { genre: any[] }) {
 	const [scrolled, setScrolled] = useState(false)
 	const router = useRouter()
 
@@ -35,7 +35,7 @@ function Header(props: { genre: any[]}) {
 						sx={{ color: 'red' }}
 						onClick={() => router.push('/')}
 					/>
-					<ServerSideModal genre={props?.genre}} />
+					<ServerSideModal genre={props?.genre} />
 					<ul className='hidden space-x-4 sm:flex text-[7px] sm:text-[12px] md:text-[15px] lg:text-[35px] xl:text-[55px]'>
 						<li className='hLink' onClick={() => router.push('/')}>
 							Home

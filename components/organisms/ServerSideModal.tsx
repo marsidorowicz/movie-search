@@ -15,9 +15,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setDataAction, setTitleAction, setYearAction } from '../../state/action-creators'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import { GetServerSideProps } from 'next'
 
-export default function ServerSideModal(props: { genre: any; results: any }) {
+export default function ServerSideModal(props: { genre: any }) {
 	const dispatch = useDispatch()
 	const [showChild, setShowChild] = useState(false)
 	const rootRef = useRef<HTMLDivElement>(null)
@@ -39,8 +38,6 @@ export default function ServerSideModal(props: { genre: any; results: any }) {
 		setShowChild(true)
 	}, [])
 	console.log(state)
-	console.log('props?.results')
-	console.log(props?.results)
 
 	useEffect(() => {
 		if (!state) return
