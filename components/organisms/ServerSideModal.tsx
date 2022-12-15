@@ -33,6 +33,7 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	const state = useSelector((state: any) => state.root)
 	const router = useRouter()
 	let ids: string = ''
+	console.log(state)
 
 	const getMovieDataByYear = async (props: { year?: string; genre?: any }) => {
 		if (!props?.year && !props?.genre) return
@@ -43,6 +44,8 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			}
 		}
 		const response = await fetch(`${req.year}${ids !== '&with_genres=' ? ids : ''}&year=${props?.year}`).then((res) => res.json())
+		console.log(response)
+
 		if (!response) {
 			setMsg('no response')
 			setSeverity('error')
@@ -131,9 +134,11 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 				setOpen(true)
 				return
 			}
+			console.log('res')
+			console.log(res)
 
-			setDataFromFilters(res)
-			dispatch(setDataAction(res))
+			setDataFromFilters(res?.data)
+			dispatch(setDataAction(res?.data))
 
 			onClose()
 			if (!year && !title) return
