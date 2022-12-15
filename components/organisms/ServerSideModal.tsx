@@ -84,7 +84,7 @@ export default function ServerSideModal(props: { genre: any }) {
 				dispatch(setDataAction(res))
 				onClose()
 				if (!year && !title) return
-				router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genres=' + ids : ''}`)
+				// router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genres=' + ids : ''}`)
 				return
 			} catch (error) {
 				console.log(error)
@@ -120,7 +120,7 @@ export default function ServerSideModal(props: { genre: any }) {
 
 			onClose()
 			if (!year && !title) return
-			router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genres=' + ids : ''}`)
+			// router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genres=' + ids : ''}`)
 		} catch (error) {
 			console.log(error)
 		}
