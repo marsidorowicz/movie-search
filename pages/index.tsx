@@ -66,13 +66,22 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 	}
 
 	const getMovieDataByYear = async (props: { year?: string; genre?: any }) => {
+		console.log('props?.genre')
+		console.log(props?.genre)
+		console.log(props?.year)
+
 		if (!props?.year && !props?.genre) return
 		let ids: any = '&with_genres='
 		if (props?.genre?.length > 0) {
 			for (let item in props?.genre) {
+				console.log(item, props?.genre[item])
+
 				ids += props?.genre[item] + ','
 			}
 		}
+		console.log('ids')
+		console.log(ids)
+
 		const response = await fetch(`${req.year}${ids !== '&with_genres=' ? ids : ''}&year=${props?.year}`).then((res) => res.json())
 		if (!response) {
 			setMsg('no response')
@@ -81,7 +90,6 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 			return
 		}
 
-		setMovie(response)
 		setDataFromFilters(response)
 		dispatch(setDataAction(response))
 	}
@@ -98,8 +106,17 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 		const idA = arrOfObjects['id']
 		const titleA = arrOfObjects['title'] || null
 		const yearA = arrOfObjects['year']
-		const genreA = arrOfObjects['genre']?.split(',')
+		const genreA = arrOfObjects['genres']?.split(',')
 		const genreFilters = props?.genre?.genres
+		const idsFiltering = state?.root.filtersSelected?.length
+			? state?.root.filtersSelected?.map((filter: any) => {
+					return filter?.id
+			  })
+			: selectedFilters?.length > 0
+			? selectedFilters?.map((filter: any) => {
+					return filter?.id
+			  })
+			: []
 		const genreMatch =
 			genreFilters?.length > 0
 				? genreFilters?.filter((genre: any) => {
@@ -108,6 +125,12 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 						}
 				  })
 				: null
+		console.log(arrOfObjects)
+		console.log(yearA)
+		console.log(year)
+		console.log(genreMatch)
+		console.log(genreFilters)
+		console.log(genreA)
 
 		if (idA) {
 			setMovieId(idA)
@@ -130,8 +153,8 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 
 		if (!titleA && yearA) {
 			getMovieDataByYear({
-				year: year,
-				genre: state?.root?.filtersSelected?.length > 0 ? state?.root?.filtersSelected : [],
+				year: yearA,
+				genre: idsFiltering?.length > 0 ? idsFiltering : [],
 			})
 		}
 
@@ -150,7 +173,7 @@ export default function HomePage(props: { topRated: any; genre: any }) {
 		console.log(dataFromFilters)
 
 		if (!state) return
-		if (state?.root?.data?.length) {
+		if (state?.root?.data?.results?.length) {
 			setDataFromFilters(state?.root?.data)
 		}
 		return () => {}

@@ -41,7 +41,7 @@ export const searchMovie = async (props: { year?: string; title: string; genre?:
 const req = {
 	topRated: `${BASE_URL_TMDB}/movie/top_rated?api_key=${API_KEY}&language=en-US`,
 	genreList: `${BASE_URL_TMDB}/genre/movie/list?&api_key=${API_KEY}`,
-	year: `${BASE_URL_TMDB}/discover/movie?&sort_by=vote_average.desc&api_key=${API_KEY}`,
+	year: `${BASE_URL_TMDB}/discover/movie/?sort_by=vote_average.desc&api_key=${API_KEY}`,
 	fetchMovieData: `${BASE_URL_TMDB}/movie?&api_key=${API_KEY}`,
 }
 

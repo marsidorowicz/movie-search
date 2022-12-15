@@ -33,6 +33,31 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 	const state = useSelector((state: any) => state.root)
 	const router = useRouter()
 	let ids: string = ''
+
+	const getMovieDataByYear = async (props: { year?: string; genre?: any }) => {
+		console.log('props?.genre')
+		console.log(props?.genre)
+		console.log(props?.year)
+
+		if (!props?.year && !props?.genre) return
+		let ids: any = '&with_genres='
+		if (props?.genre?.length > 0) {
+			for (let item in props?.genre) {
+				ids += props?.genre[item] + ','
+			}
+		}
+		const response = await fetch(`${req.year}${ids !== '&with_genres=' ? ids : ''}&year=${props?.year}`).then((res) => res.json())
+		if (!response) {
+			setMsg('no response')
+			setSeverity('error')
+			setOpen(true)
+			return
+		}
+
+		setDataFromFilters(response)
+		dispatch(setDataAction(response))
+	}
+
 	useEffect(() => {
 		setYear('')
 		setShowChild(true)
@@ -75,13 +100,16 @@ export default function ServerSideModal(props: { genre: any; sendData: (data: an
 			}
 		}
 		if (!title && year) {
-			try {
-				const res = await fetch(req.year + '&year=' + year + idPref + ids).then((res) => res.json())
-				console.log('res*****************************************')
-				console.log(res)
+			console.log('year')
+			console.log(year)
 
-				setDataFromFilters(res)
-				dispatch(setDataAction(res))
+			try {
+				getMovieDataByYear({
+					year: year,
+					genre: idsFiltering,
+				})
+				// const res = await fetch(req.year + '&year=' + year + idPref + ids).then((res) => res.json())
+
 				onClose()
 				if (!year && !title) return
 				router.push(`/${year ? '?year=' + year : '?'} ${title ? '&title=' + title : ''} ${ids ? '&genres=' + ids : ''}`)
